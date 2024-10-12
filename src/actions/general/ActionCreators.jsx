@@ -17,3 +17,15 @@ export const SIGNUP = (obj, formRef, navigate) => async (dispatch) => {
     handleNetworkError(error);
   }
 };
+
+export const LOGOUT = (userId, navigate) => async (dispatch) => {
+  try {
+    const apiResponse = await ApiService.patch(`/auth/logout`, { userId: userId });
+    if (apiResponse.status == 200) {
+      localStorage.clear();
+      navigate("/login");
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
