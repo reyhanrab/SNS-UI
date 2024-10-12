@@ -18,6 +18,21 @@ export const SIGNUP = (obj, formRef, navigate) => async (dispatch) => {
   }
 };
 
+export const LOGIN = (obj, formRef, navigate) => async () => {
+  try {
+    const apiResponse = await ApiService.patch(`/auth/login`, obj);
+    if (apiResponse.status == 200) {
+      formRef.current.reset();
+      navigate("/dashboard");
+      localStorage.setItem("user", apiResponse.data.results);
+    } else {
+      dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.results.message);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+
 export const LOGOUT = (userId, navigate) => async (dispatch) => {
   try {
     const apiResponse = await ApiService.patch(`/auth/logout`, { userId: userId });
