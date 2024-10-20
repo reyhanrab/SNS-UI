@@ -1,24 +1,49 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { Provider } from "react-redux";
-
-import Store from "./store/Store";
-import SignUp from "./components/auth/Signup";
-import ProtectedRoutes from "./ProtectedRoutes";
-import Login from "./components/auth/Login";
 import Dashboard from "./components/Dashboard";
+import Campaigns from "./components/Campaigns/Campaigns";
+import SignUp from "./components/auth/Signup";
+import Login from "./components/auth/Login";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/PasswordReset";
+import { Provider } from "react-redux";
+import Store from "./store/Store";
+import AppTheme from "./components/auth/theme/AppTheme";
+import { CssBaseline } from "@mui/material";
+import Layout from "./components/sidebar/Layout";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 function App() {
   return (
-    <Provider store={Store}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<SignUp />} />
-          <Route path="/dashboard" element={<ProtectedRoutes Component={Dashboard} />} />
-        </Routes>
-      </Router>
-    </Provider>
+    <AppTheme>
+      <CssBaseline enableColorScheme />
+      <Provider store={Store}>
+        <Router>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+
+            {/* Authenticated Routes with Sidebar */}
+            <Route path="/dashboard" element={<Layout />}>
+              <Route exact index element={<ProtectedRoutes Component={Dashboard} />} />{" "}
+              {/* Default Dashboard */}
+              <Route
+                exact
+                path="campaigns"
+                element={<ProtectedRoutes Component={Campaigns} />}
+              />{" "}
+              {/* New Campaigns Page */}
+            </Route>
+
+            {/* Redirect unknown routes */}
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        </Router>
+      </Provider>
+    </AppTheme>
   );
 }
 

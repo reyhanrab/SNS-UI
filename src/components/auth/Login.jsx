@@ -125,114 +125,111 @@ const Login = () => {
   };
 
   return (
-    <AppTheme>
-      <CssBaseline enableColorScheme />
-      <SignInContainer
-        direction="column"
-        justifyContent="space-between"
-        minWidth={"100vw"}
-        minHeight={"100vh"}
-      >
-        <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
-        <Card variant="outlined">
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{
-              width: "100%",
-              fontSize: "clamp(2rem, 10vw, 2.15rem)",
-              textAlign: "center",
-              color: "primary.main",
-            }}
-          >
-            Scope N' Stack
-          </Typography>
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: "90%", fontSize: "clamp(2rem, 10vw, 2.15rem)", textAlign: "center" }}
-          >
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={(e) => handleSubmit(e)}
-            noValidate
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              gap: 2,
-            }}
-            ref={formRef}
-          >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                error={emailError}
-                helpertext={emailErrorMessage}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={emailError ? "error" : "primary"}
-                sx={{ ariaLabel: "email" }}
-              />
-            </FormControl>
-            <FormControl>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <MuiLink
-                  component="button"
-                  onClick={handleClickOpen}
-                  variant="body2"
-                  sx={{ alignSelf: "baseline" }}
-                  type="button" // Prevent form submission
-                >
-                  Forgot your password?
-                </MuiLink>
-              </Box>
-              <TextField
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                required
-                fullWidth
-                variant="outlined"
-                color={passwordError ? "error" : "primary"}
-              />
-            </FormControl>
-            {/* <FormControlLabel
+    <SignInContainer
+      direction="column"
+      justifyContent="space-between"
+      minWidth={"100vw"}
+      minHeight={"100vh"}
+    >
+      <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
+      <Card variant="outlined">
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{
+            width: "100%",
+            fontSize: "clamp(2rem, 10vw, 2.15rem)",
+            textAlign: "center",
+            color: "primary.main",
+          }}
+        >
+          Scope N' Stack
+        </Typography>
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{ width: "90%", fontSize: "clamp(2rem, 10vw, 2.15rem)", textAlign: "center" }}
+        >
+          Sign in
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={(e) => handleSubmit(e)}
+          noValidate
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            gap: 2,
+          }}
+          ref={formRef}
+        >
+          <FormControl>
+            <FormLabel htmlFor="email">Email</FormLabel>
+            <TextField
+              error={emailError}
+              helpertext={emailErrorMessage}
+              id="email"
+              type="email"
+              name="email"
+              placeholder="your@email.com"
+              autoComplete="email"
+              autoFocus
+              required
+              fullWidth
+              variant="outlined"
+              color={emailError ? "error" : "primary"}
+              sx={{ ariaLabel: "email" }}
+            />
+          </FormControl>
+          <FormControl>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <MuiLink
+                component="button"
+                onClick={handleClickOpen}
+                variant="body2"
+                sx={{ alignSelf: "baseline" }}
+                type="button" // Prevent form submission
+              >
+                Forgot your password?
+              </MuiLink>
+            </Box>
+            <TextField
+              error={passwordError}
+              helperText={passwordErrorMessage}
+              name="password"
+              placeholder="••••••"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              required
+              fullWidth
+              variant="outlined"
+              color={passwordError ? "error" : "primary"}
+            />
+          </FormControl>
+          {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
-            <ForgotPassword open={open} handleClose={handleClose} />
-            <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
-              Sign in
-            </Button>
-            <Typography sx={{ textAlign: "center" }}>
-              Don&apos;t have an account?{" "}
-              <span>
-                <Link to="/signup">
-                  <MuiLink variant="body2" sx={{ alignSelf: "center" }}>
-                    Sign up
-                  </MuiLink>
-                </Link>
-              </span>
-            </Typography>
-          </Box>
-        </Card>
-      </SignInContainer>
-    </AppTheme>
+          <ForgotPassword open={open} handleClose={handleClose} />
+          <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
+            Sign in
+          </Button>
+          <Typography sx={{ textAlign: "center" }}>
+            Don&apos;t have an account?{" "}
+            <span>
+              <Link to="/signup">
+                <MuiLink variant="body2" sx={{ alignSelf: "center" }}>
+                  Sign up
+                </MuiLink>
+              </Link>
+            </span>
+          </Typography>
+        </Box>
+      </Card>
+    </SignInContainer>
   );
 };
 
