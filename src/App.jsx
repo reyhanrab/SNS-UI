@@ -6,9 +6,13 @@ import SignUp from "./components/auth/Signup";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/Dashboard";
+import AppTheme from "./components/auth/theme/AppTheme";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   return (
+    <AppTheme>
+      <CssBaseline enableColorScheme />
     <Provider store={Store}>
       <Router>
         <Routes>
@@ -19,6 +23,7 @@ function App() {
         </Routes>
       </Router>
     </Provider>
+    </AppTheme>
   );
 }
 
