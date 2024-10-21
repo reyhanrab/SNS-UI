@@ -14,7 +14,7 @@ export const GETCAMPAIGNSDATA = () => async (dispatch) => {
 
 export const ADDCAMPAIGNSDATA = (obj, handleDialog) => async (dispatch) => {
   try {
-    const apiResponse = await ApiService.post(`/campaigns`, { data: obj });
+    const apiResponse = await ApiService.post(`/campaigns`, obj);
     if (apiResponse) {
       dispatch(GETCAMPAIGNSDATA());
       handleDialog(false);

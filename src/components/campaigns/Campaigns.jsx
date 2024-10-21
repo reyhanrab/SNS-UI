@@ -6,14 +6,15 @@ import CreateCampaign from "./create/CreateCampaign";
 import { ADDCAMPAIGNSDATA } from "../../actions/campaigns/ActionCreators";
 
 function Campaigns() {
+  const dispatch = useDispatch();
+
   const [isModalOpen, setModalOpen] = useState(false);
   
   const handleOpenModal = () => setModalOpen(true);
   const handleCloseModal = () => setModalOpen(false);
 
   const handleCreateCampaign = (obj) => {
-    console.log("obj", obj);
-    // dispatch(ADDCAMPAIGNSDATA(obj, handleCloseModal));
+    dispatch(ADDCAMPAIGNSDATA(obj, handleCloseModal));
   };
 
   // Memoizing the ViewCampaign component
