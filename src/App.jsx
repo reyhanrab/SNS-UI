@@ -13,6 +13,7 @@ import Layout from "./components/sidebar/Layout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import AppTheme from "./components/auth/theme/AppTheme";
 import { CssBaseline } from "@mui/material";
+import PageNotFound from "./PageNotFound";
 
 function App() {
   return (
@@ -43,7 +44,7 @@ function App() {
             </Route>
 
             {/* Redirect unknown routes */}
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={PageNotFound} />
           </Routes>
         </Router>
       </Provider>
