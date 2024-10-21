@@ -1,0 +1,1 @@
+export const CAMPAIGNS_DATA = "CAMPAIGNS_DATA";
