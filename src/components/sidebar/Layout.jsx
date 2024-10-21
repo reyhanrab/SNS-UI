@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import Sidebar from './Sidebar';
 
 const Layout = () => {
-    console.log("Layout rendered"); // Add this line
     return (
       <Box sx={{ display: 'flex' }}>
         <Sidebar />

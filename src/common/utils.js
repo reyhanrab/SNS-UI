@@ -6,9 +6,6 @@ export const checkAuth = () => {
           .find((row) => row.startsWith("authtoken="))
           .split("=")[1]
       : undefined;
-  
-      console.log(document.cookie);
-      console.log("token",token)
       
     if (token !== undefined && token.length > 1) {
       isAuthenticated = true;

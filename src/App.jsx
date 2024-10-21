@@ -11,44 +11,43 @@ import AppTheme from "./components/auth/theme/AppTheme";
 import { CssBaseline } from "@mui/material";
 import Layout from "./components/sidebar/Layout";
 import ProtectedRoutes from "./ProtectedRoutes";
-import AppTheme from "./components/auth/theme/AppTheme";
-import { CssBaseline } from "@mui/material";
 import PageNotFound from "./PageNotFound";
 
 function App() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
-    <AppTheme>
-      <CssBaseline enableColorScheme />
-      <Provider store={Store}>
-        <Router>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+      <AppTheme>
+        <CssBaseline enableColorScheme />
+        <Provider store={Store}>
+          <Router>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
-            {/* Authenticated Routes with Sidebar */}
-            <Route path="/dashboard" element={<Layout />}>
-              <Route exact index element={<ProtectedRoutes Component={Dashboard} />} />{" "}
-              {/* Default Dashboard */}
-              <Route
-                exact
-                path="campaigns"
-                element={<ProtectedRoutes Component={Campaigns} />}
-              />{" "}
-              {/* New Campaigns Page */}
-            </Route>
+              {/* Authenticated Routes with Sidebar */}
+              <Route path="/dashboard" element={<Layout />}>
+                <Route exact index element={<ProtectedRoutes Component={Dashboard} />} />{" "}
+                {/* Default Dashboard */}
+                <Route
+                  exact
+                  path="campaigns"
+                  element={<ProtectedRoutes Component={Campaigns} />}
+                />{" "}
+                {/* New Campaigns Page */}
+                <Route path="*" element={<PageNotFound />} />
+              </Route>
 
-            {/* Redirect unknown routes */}
-            <Route path="*" element={PageNotFound} />
-          </Routes>
-        </Router>
-      </Provider>
-    </AppTheme>
+              {/* Redirect unknown routes */}
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </Router>
+        </Provider>
+      </AppTheme>
     </AppTheme>
   );
 }
