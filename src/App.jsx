@@ -11,9 +11,13 @@ import AppTheme from "./components/auth/theme/AppTheme";
 import { CssBaseline } from "@mui/material";
 import Layout from "./components/sidebar/Layout";
 import ProtectedRoutes from "./ProtectedRoutes";
+import AppTheme from "./components/auth/theme/AppTheme";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   return (
+    <AppTheme>
+      <CssBaseline enableColorScheme />
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Provider store={Store}>
@@ -43,6 +47,7 @@ function App() {
           </Routes>
         </Router>
       </Provider>
+    </AppTheme>
     </AppTheme>
   );
 }
