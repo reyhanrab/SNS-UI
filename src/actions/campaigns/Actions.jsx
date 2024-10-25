@@ -1,6 +1,6 @@
-import { CAMPAIGNS_DATA } from "./Types";
+import { CAMPAIGNS_DATA, CAMPAIGN_METADATA } from "./Types";
 
-/*------------------------------SAVE USERS DATA-------------------------------------------*/
+/*------------------------------SAVE CAMPAIGN DATA-------------------------------------------*/
 
 export const CAMPAIGNSDATA = (value) => {
   return {
@@ -8,3 +8,13 @@ export const CAMPAIGNSDATA = (value) => {
     payload: { value },
   };
 };
+
+/*------------------------------SAVE CAMPAIGN PAGINATION DATA-------------------------------------------*/
+
+export const CAMPAIGNMETADATA = (value) => {
+  return {
+    type: CAMPAIGN_METADATA,
+    payload: { value },
+  };
+};
+
