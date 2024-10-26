@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
 import Sidebar from './Sidebar';
+import RightSidebar from './RightSidebar';
 
 const Layout = () => {
     return (
@@ -10,6 +11,7 @@ const Layout = () => {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Outlet />
         </Box>
+        <RightSidebar />
       </Box>
     );
   };
