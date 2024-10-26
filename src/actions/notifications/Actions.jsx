@@ -1,7 +1,7 @@
-import { NOTIFICATION_SUCCESS, NOTIFICATIONS_REQUEST, NOTIFICATIONS_FAILURE } from "./Types";
+import { NOTIFICATION_SUCCESS, NOTIFICATION_REQUEST, NOTIFICATION_FAILURE } from "./Types";
 
 export const NOTIFICATIONREQUEST = () => ({
-  type: NOTIFICATIONS_REQUEST,
+  type: NOTIFICATION_REQUEST,
 });
 
 export const NOTIFICATIONSUCESS = (notifications) => ({
@@ -10,6 +10,6 @@ export const NOTIFICATIONSUCESS = (notifications) => ({
 });
 
 export const NOTIFICATIONFAILURE = (error) => ({
-  type: NOTIFICATIONS_FAILURE,
+  type: NOTIFICATION_FAILURE,
   payload: error,
 });

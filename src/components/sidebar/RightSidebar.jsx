@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
   Drawer,
   List,
@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { ExpandLess, ExpandMore, NotificationImportant, Info, Warning } from "@mui/icons-material";
 import { GETNOTIFICATIONS } from "../../actions/notifications/ActionCreators";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const RightSidebar = () => {
   const [isOpen, setIsOpen] = useState(true); // State to manage open/close
@@ -68,9 +68,9 @@ const RightSidebar = () => {
 
 const Notifications = () => {
   const dispatch = useDispatch();
-  const notifications = useSelector((state) => state.NotificationsReducernotifications);
-  const loading = useSelector((state) => state.NotificationsReducerloading);
-  const hasMore = useSelector((state) => state.NotificationsReducerhasMore);
+  const notifications = useSelector((state) => state.NotificationsReducer.notifications);
+  const loading = useSelector((state) => state.NotificationsReducer.loading);
+  const hasMore = useSelector((state) => state.NotificationsReducer.hasMore);
   const [offset, setOffset] = useState(0);
   const limit = 20; // Number of notifications to load at a time
 

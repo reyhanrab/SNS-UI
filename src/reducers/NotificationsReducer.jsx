@@ -1,8 +1,8 @@
 import {
   NOTIFICATION_SUCCESS,
-  NOTIFICATIONS_REQUEST,
-  NOTIFICATIONS_FAILURE,
-} from "../actions/campaigns/Types";
+  NOTIFICATION_REQUEST,
+  NOTIFICATION_FAILURE,
+} from "../actions/notifications/Types";
 
 const initialState = {
   notifications: [],
@@ -13,7 +13,7 @@ const initialState = {
 
 const NotificationsReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case NOTIFICATIONS_REQUEST:
+    case NOTIFICATION_REQUEST:
       return {
         ...state,
         loading: true,
@@ -26,7 +26,7 @@ const NotificationsReducer = (state = initialState, action = {}) => {
         notifications: [...state.notifications, ...action.payload],
         hasMore: action.payload.length === 20, // Assuming 20 is the limit
       };
-    case NOTIFICATIONS_FAILURE:
+    case NOTIFICATION_FAILURE:
       return {
         ...state,
         loading: false,
