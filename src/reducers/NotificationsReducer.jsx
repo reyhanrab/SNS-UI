@@ -20,11 +20,16 @@ const NotificationsReducer = (state = initialState, action = {}) => {
         error: null,
       };
     case NOTIFICATION_SUCCESS:
+      const newNotifications = action.payload.filter(
+        (newNotif) => !state.notifications.some(
+          (existingNotif) => existingNotif._id === newNotif._id
+        )
+      );
       return {
         ...state,
         loading: false,
-        notifications: [...state.notifications, ...action.payload],
-        hasMore: action.payload.length === 20, // Assuming 20 is the limit
+        notifications: [...state.notifications, ...newNotifications],
+        hasMore: newNotifications.length === 20, // Assuming 20 is the limit
       };
     case NOTIFICATION_FAILURE:
       return {

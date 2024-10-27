@@ -1,10 +1,10 @@
 import ApiService, { handleNetworkError, dispatchAction } from "../../middleware/ApiService";
 import { NOTIFICATIONFAILURE, NOTIFICATIONREQUEST, NOTIFICATIONSUCESS } from "./Actions";
 
-export const GETNOTIFICATIONS = (offset, limit) => async (dispatch) => {
+export const GETNOTIFICATIONS = (email, offset, limit) => async (dispatch) => {
   try {
     dispatchAction(dispatch, NOTIFICATIONREQUEST);
-    const apiResponse = await ApiService.get(`/notifications?offset=${offset}&limit=${limit}`);
+    const apiResponse = await ApiService.get(`/notifications?email=${email}&offset=${offset}&limit=${limit}`);
     if (apiResponse) {
       console.log("", apiResponse);
       dispatchAction(dispatch, NOTIFICATIONSUCESS, apiResponse.data.results);

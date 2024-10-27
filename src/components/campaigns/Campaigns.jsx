@@ -15,7 +15,7 @@ function Campaigns() {
   const handleUpdateModal = () => setUpdateModal(!updateModal);
 
   const handleCreateCampaign = (obj) => {
-    dispatch(ADDCAMPAIGNSDATA(obj, handleCloseModal));
+    dispatch(ADDCAMPAIGNSDATA(obj, handleCreateModal));
   };
 
   const handleUpdateCampaign = (obj) => {

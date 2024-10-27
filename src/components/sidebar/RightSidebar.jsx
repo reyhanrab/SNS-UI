@@ -49,7 +49,9 @@ const RightSidebar = () => {
         <IconButton onClick={toggleSidebar}>{isOpen ? <ExpandLess /> : <ExpandMore />}</IconButton>
         {isOpen && (
           <IconButton onClick={toggleNotifications}>
-            {areNotificationsOpen ? <ExpandLess /> : <ExpandMore />}
+            {/* {areNotificationsOpen ? <ExpandLess /> : <ExpandMore />}
+             */}
+             <NotificationImportant color="action" />
           </IconButton>
         )}
       </Box>
@@ -77,9 +79,10 @@ const Notifications = () => {
   // Load notifications when component mounts or when offset changes
   useEffect(() => {
     if (hasMore) {
-      dispatch(GETNOTIFICATIONS(offset, limit));
+      dispatch(GETNOTIFICATIONS(localStorage.getItem("email"), offset, limit));
     }
   }, [dispatch, offset, hasMore]);
+
   const NotificationIcon = ({ type }) => {
     switch (type) {
       case "info":
@@ -91,6 +94,8 @@ const Notifications = () => {
     }
   };
 
+  console.log("notifications", notifications);
+
   return (
     <Box sx={{ width: 250, padding: 2, maxHeight: 400, overflowY: "auto" }}>
       <Typography variant="h6" gutterBottom>
@@ -98,12 +103,15 @@ const Notifications = () => {
       </Typography>
       <Divider />
       <List>
-        {notifications.map(({ id, type, message, timestamp }) => (
-          <ListItem key={id}>
+        {notifications.map((noitification) => (
+          <ListItem key={noitification._id}>
             <ListItemIcon>
-              <NotificationIcon type={type} />
+              <NotificationIcon />
             </ListItemIcon>
-            <ListItemText primary={message} secondary={timestamp} />
+            <ListItemText
+              primary={noitification.notificationType}
+              secondary={noitification?.campaign?.title}
+            />
           </ListItem>
         ))}
       </List>
