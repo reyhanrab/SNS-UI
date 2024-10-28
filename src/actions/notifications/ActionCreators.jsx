@@ -6,7 +6,6 @@ export const GETNOTIFICATIONS = (email, offset, limit) => async (dispatch) => {
     dispatchAction(dispatch, NOTIFICATIONREQUEST);
     const apiResponse = await ApiService.get(`/notifications?email=${email}&offset=${offset}&limit=${limit}`);
     if (apiResponse) {
-      console.log("", apiResponse);
       dispatchAction(dispatch, NOTIFICATIONSUCESS, apiResponse.data.results);
     }
   } catch (error) {

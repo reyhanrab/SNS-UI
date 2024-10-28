@@ -4,15 +4,20 @@ import ViewCampaign from "./view/ViewCampaign";
 import { Toolbar, Typography, Button } from "@mui/material";
 import CreateCampaign from "./create/CreateCampaign";
 import { ADDCAMPAIGNSDATA, EDITCAMPAIGNSDATA } from "../../actions/campaigns/ActionCreators";
+import UpdateCampaign from "./update/UpdateCampaign";
 
 function Campaigns() {
   const dispatch = useDispatch();
 
   const [createModal, setCreateModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(false);
 
   const handleCreateModal = () => setCreateModal(!createModal);
-  const handleUpdateModal = () => setUpdateModal(!updateModal);
+  const handleUpdateModal = (obj) => {
+    setSelectedRow(obj);
+    setUpdateModal(!updateModal);
+  };
 
   const handleCreateCampaign = (obj) => {
     dispatch(ADDCAMPAIGNSDATA(obj, handleCreateModal));
@@ -33,7 +38,7 @@ function Campaigns() {
           Create
         </Button>
       </Toolbar>
-      <MemoizedViewCampaign />
+      <MemoizedViewCampaign handleUpdateModal={handleUpdateModal} />
       {createModal && (
         <CreateCampaign
           open={createModal}
@@ -42,7 +47,8 @@ function Campaigns() {
         />
       )}
       {updateModal && (
-        <CreateCampaign
+        <UpdateCampaign
+        campaignData={selectedRow}
           open={updateModal}
           onClose={handleUpdateModal}
           onCreate={handleUpdateCampaign}

@@ -33,7 +33,7 @@ const headers = [
   { id: "isActive", label: "Active" },
 ];
 
-const ViewCampaign = () => {
+const ViewCampaign = ({ handleUpdateModal }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -109,7 +109,8 @@ const ViewCampaign = () => {
                 }}
               >
                 Actions
-              </TableCell>            </TableRow>
+              </TableCell>{" "}
+            </TableRow>
           </TableHead>
           <TableBody>
             {campaignsData.map((row, index) => (
@@ -133,7 +134,11 @@ const ViewCampaign = () => {
                     ) : header.id === "targetAmount" || header.id === "raisedAmount" ? (
                       `$${row[header.id].toLocaleString()}`
                     ) : header.id === "isActive" ? (
-                      row[header.id] ? "Yes" : "No"
+                      row[header.id] ? (
+                        "Yes"
+                      ) : (
+                        "No"
+                      )
                     ) : (
                       row[header.id]
                     )}
@@ -160,7 +165,7 @@ const ViewCampaign = () => {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <List>
-          <ListItem button onClick={handleClose}>
+          <ListItem button onClick={()=>handleUpdateModal(selectedRow)}>
             <ListItemText primary={`Update ${selectedRow ? selectedRow.title : ""}`} />
           </ListItem>
         </List>

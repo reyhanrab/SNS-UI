@@ -5,7 +5,6 @@ export const GETCAMPAIGNSDATA = (page, limit) => async (dispatch) => {
   try {
     const apiResponse = await ApiService.get(`/campaigns?page=${page}&limit=${limit}`);
     if (apiResponse) {
-      console.log("", apiResponse);
       dispatchAction(dispatch, CAMPAIGNSDATA, apiResponse.data.results);
       dispatchAction(dispatch, CAMPAIGNMETADATA, apiResponse.data.metadata);
     }
