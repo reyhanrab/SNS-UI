@@ -1,11 +1,12 @@
 import ApiService, { handleNetworkError, dispatchAction } from "../../middleware/ApiService";
-import { CAMPAIGNSDATA } from "./Actions";
+import { CAMPAIGNSDATA, CAMPAIGNMETADATA } from "./Actions";
 
-export const GETCAMPAIGNSDATA = () => async (dispatch) => {
+export const GETCAMPAIGNSDATA = (page, limit) => async (dispatch) => {
   try {
-    const apiResponse = await ApiService.get(`/campaigns`);
+    const apiResponse = await ApiService.get(`/campaigns?page=${page}&limit=${limit}`);
     if (apiResponse) {
-      dispatchAction(dispatch, CAMPAIGNSDATA, apiResponse.results);
+      dispatchAction(dispatch, CAMPAIGNSDATA, apiResponse.data.results);
+      dispatchAction(dispatch, CAMPAIGNMETADATA, apiResponse.data.metadata);
     }
   } catch (error) {
     handleNetworkError(error);

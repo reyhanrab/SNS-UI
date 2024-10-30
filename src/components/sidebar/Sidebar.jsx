@@ -34,6 +34,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [expandSettings, setExpandSettings] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
+  const [selectedMenuItem, setSelectedMenuItem] = useState("Dashboard");
 
   const toggleSidebar = useCallback(() => setIsOpen((prev) => !prev), []);
   const handleExpandSettings = useCallback(() => setExpandSettings((prev) => !prev), []);
@@ -79,7 +80,7 @@ const Sidebar = () => {
       >
         {isOpen && (
           <Typography variant="h6" sx={{ fontFamily: "Inter" }}>
-            Dashboard
+            {selectedMenuItem}
           </Typography>
         )}
         <IconButton onClick={toggleSidebar}>{isOpen ? <ExpandLess /> : <ExpandMore />}</IconButton>
@@ -92,6 +93,7 @@ const Sidebar = () => {
             component={Link}
             to={path}
             selected={location.pathname === path}
+            onClick={() => setSelectedMenuItem(label)} 
             sx={{
               padding: "12px 16px",
               "&:hover": {
@@ -186,12 +188,40 @@ const Sidebar = () => {
       >
         <Avatar src="/path/to/avatar.jpg" />
         {isOpen && (
-          <Box sx={{ marginLeft: "8px" }}>
-            <Typography variant="body1" sx={{ fontFamily: "Inter", fontWeight: 600 }}>
-              Riley Carter
+          <Box
+            sx={{
+              marginLeft: "8px",
+              display: "flex",
+              flexDirection: "column",
+              maxWidth: "240px", // Adjust width as needed
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: 600,
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {localStorage.getItem("name")}
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ fontFamily: "Inter" }}>
-              riley@email.com
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                fontFamily: "Inter",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {localStorage.getItem("email")}
             </Typography>
           </Box>
         )}
@@ -209,12 +239,17 @@ const Sidebar = () => {
           },
         }}
       >
-        <MenuItem onClick={handleCloseMenu} sx={{ '&:focus': { outline: 'none' } }}>
+        <MenuItem onClick={handleCloseMenu} sx={{ "&:focus": { outline: "none" } }}>
           <Link to="/my-account" style={{ textDecoration: "none", color: "inherit" }}>
             My Account
           </Link>
         </MenuItem>
-        <MenuItem sx={{ '&:focus': { outline: 'none' } }} onClick={()=>dispatch(LOGOUT(localStorage.getItem("email"), navigate))}>Logout</MenuItem>
+        <MenuItem
+          sx={{ "&:focus": { outline: "none" } }}
+          onClick={() => dispatch(LOGOUT(localStorage.getItem("email"), navigate))}
+        >
+          Logout
+        </MenuItem>
       </Menu>
     </Drawer>
   );

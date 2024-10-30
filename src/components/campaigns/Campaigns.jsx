@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ViewCampaign from "./view/ViewCampaign";
 import { Toolbar, Typography, Button } from "@mui/material";
 import CreateCampaign from "./create/CreateCampaign";
-import { ADDCAMPAIGNSDATA } from "../../actions/campaigns/ActionCreators";
+import { ADDCAMPAIGNSDATA, EDITCAMPAIGNSDATA } from "../../actions/campaigns/ActionCreators";
+import UpdateCampaign from "./update/UpdateCampaign";
 
 function Campaigns() {
   const dispatch = useDispatch();
@@ -34,15 +35,15 @@ function Campaigns() {
     <div>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h6">All Campaigns</Typography>
-        <Button variant="contained" color="secondary" onClick={handleOpenModal}>
+        <Button variant="contained" color="secondary" onClick={handleCreateModal}>
           Create
         </Button>
       </Toolbar>
-      <MemoizedViewCampaign />
-      {isModalOpen && (
+      <MemoizedViewCampaign handleUpdateModal={handleUpdateModal} />
+      {createModal && (
         <CreateCampaign
-          open={isModalOpen}
-          onClose={handleCloseModal}
+          open={createModal}
+          onClose={handleCreateModal}
           onCreate={handleCreateCampaign}
         />
       )}

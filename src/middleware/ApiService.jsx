@@ -35,25 +35,28 @@ ApiService.interceptors.request.use(
   }
 );
 
-// ApiService.interceptors.response.use(
-//   async (response) => {
-//     console.log("response", response)
-//     // Any status code that lie within the range of 2xx cause this function to trigger
-//     // Do something with response data
-//     return response.data;
-//   },
-//   function (error) {
-//     if(error.response.status === 400) {
-//       alert(error.response.data.message)
-//     }
-//     // Any status codes that falls outside the range of 2xx cause this function to trigger
-//     // Do something with response error
-//     // if (error.response.status !== 403) {
-//     //   apiCmt.post("/users/login/refresh", { token: refreshToken });
-//     // }
-//     return Promise.reject(error);
-//   }
-// );
+ApiService.interceptors.response.use(
+  async (response) => {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+  },
+  function (error) {
+    if(error.response.status === 400) {
+      console.log(error.response.data.message)
+    }
+    if(error.response.status === 401) {
+      localStorage.clear();
+      document.cookie = 'authtoken=; path=/;'
+    }
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    // if (error.response.status !== 403) {
+    //   apiCmt.post("/users/login/refresh", { token: refreshToken });
+    // }
+    return Promise.reject(error);
+  }
+);
 
 export const handleNetworkError = (error) => {
   return console.log(error);
