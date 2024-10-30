@@ -4,7 +4,7 @@ import { NOTIFICATIONFAILURE, NOTIFICATIONREQUEST, NOTIFICATIONSUCESS } from "./
 export const GETNOTIFICATIONS = (email, offset, limit) => async (dispatch) => {
   try {
     dispatchAction(dispatch, NOTIFICATIONREQUEST);
-    const apiResponse = await ApiService.get(`/notifications?email=${email}&offset=${offset}&limit=${limit}`);
+    const apiResponse = await ApiService.get(`/notification?email=${email}&offset=${offset}&limit=${limit}`);
     if (apiResponse) {
       dispatchAction(dispatch, NOTIFICATIONSUCESS, apiResponse.data.results);
     }

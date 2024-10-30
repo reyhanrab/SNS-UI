@@ -3,7 +3,7 @@ import { CAMPAIGNSDATA, CAMPAIGNMETADATA } from "./Actions";
 
 export const GETCAMPAIGNSDATA = (page, limit) => async (dispatch) => {
   try {
-    const apiResponse = await ApiService.get(`/campaigns?page=${page}&limit=${limit}`);
+    const apiResponse = await ApiService.get(`/campaign?page=${page}&limit=${limit}`);
     if (apiResponse) {
       dispatchAction(dispatch, CAMPAIGNSDATA, apiResponse.data.results);
       dispatchAction(dispatch, CAMPAIGNMETADATA, apiResponse.data.metadata);
@@ -15,7 +15,7 @@ export const GETCAMPAIGNSDATA = (page, limit) => async (dispatch) => {
 
 export const ADDCAMPAIGNSDATA = (obj, handleCreateModal) => async (dispatch) => {
   try {
-    const apiResponse = await ApiService.post(`/campaigns`, obj);
+    const apiResponse = await ApiService.post(`/campaign`, obj);
     if (apiResponse) {
       dispatch(GETCAMPAIGNSDATA());
       handleCreateModal();
@@ -28,7 +28,7 @@ export const ADDCAMPAIGNSDATA = (obj, handleCreateModal) => async (dispatch) => 
 export const EDITCAMPAIGNSDATA = (id, obj, handleUpdateModal) => async (dispatch) => {
   try {
     delete obj?._id;
-    const apiResponse = await ApiService.patch(`/campaigns/${id}`, obj);
+    const apiResponse = await ApiService.patch(`/campaign/${id}`, obj);
     if (apiResponse) {
       dispatch(GETCAMPAIGNSDATA());
       handleUpdateModal();
@@ -40,7 +40,7 @@ export const EDITCAMPAIGNSDATA = (id, obj, handleUpdateModal) => async (dispatch
 
 export const DELETECAMPAIGNSDATA = (id) => async (dispatch) => {
   try {
-    const apiResponse = await ApiService.delete(`/campaigns/${id}`);
+    const apiResponse = await ApiService.delete(`/campaign/${id}`);
     if (apiResponse) {
       dispatch(GETCAMPAIGNSDATA());
     }
