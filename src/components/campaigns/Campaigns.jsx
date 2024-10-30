@@ -8,13 +8,23 @@ import { ADDCAMPAIGNSDATA } from "../../actions/campaigns/ActionCreators";
 function Campaigns() {
   const dispatch = useDispatch();
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  
-  const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
+  const [createModal, setCreateModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(false);
+
+  const handleCreateModal = () => setCreateModal(!createModal);
+
+  const handleUpdateModal = (obj={}) => {
+    setSelectedRow(obj);
+    setUpdateModal(!updateModal);
+  };
 
   const handleCreateCampaign = (obj) => {
-    dispatch(ADDCAMPAIGNSDATA(obj, handleCloseModal));
+    dispatch(ADDCAMPAIGNSDATA(obj, handleCreateModal));
+  };
+
+  const handleUpdateCampaign = (obj) => {
+    dispatch(EDITCAMPAIGNSDATA(obj?._id, obj, handleUpdateModal));
   };
 
   // Memoizing the ViewCampaign component
@@ -34,6 +44,14 @@ function Campaigns() {
           open={isModalOpen}
           onClose={handleCloseModal}
           onCreate={handleCreateCampaign}
+        />
+      )}
+      {updateModal && (
+        <UpdateCampaign
+        campaignData={selectedRow}
+          open={updateModal}
+          onClose={handleUpdateModal}
+          onUpdate={handleUpdateCampaign}
         />
       )}
     </div>

@@ -200,7 +200,7 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
         <Button onClick={onClose} variant="outlined" color="secondary">
           Cancel
         </Button>
-        <Button onClick={handleUpdate} variant="contained" color="primary">
+        <Button onClick={()=>handleUpdate()} variant="contained" color="primary">
           Update
         </Button>
       </DialogActions>
