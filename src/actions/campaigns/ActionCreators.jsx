@@ -13,38 +13,25 @@ export const GETCAMPAIGNSDATA = (page, limit) => async (dispatch) => {
   }
 };
 
-export const ADDCAMPAIGNSDATA = (obj, handleDialog) => async (dispatch) => {
+export const ADDCAMPAIGNSDATA = (obj, handleCreateModal) => async (dispatch) => {
   try {
     const apiResponse = await ApiService.post(`/campaigns`, obj);
     if (apiResponse) {
       dispatch(GETCAMPAIGNSDATA());
-      handleDialog(false);
+      handleCreateModal();
     }
   } catch (error) {
     handleNetworkError(error);
   }
 };
 
-export const EDITCAMPAIGNSDATA =
-  (id, obj, formRef, handleDialog, showDialog) => async (dispatch) => {
-    try {
-      const apiResponse = await ApiService.patch(`/campaigns/${id}`, { data: obj });
-      if (apiResponse) {
-        dispatch(GETCAMPAIGNSDATA());
-        formRef.current.reset();
-        handleDialog(!showDialog);
-      }
-    } catch (error) {
-      handleNetworkError(error);
-    }
-  };
-
-export const EDITPROFILE = (id, obj, formRef) => async (dispatch) => {
+export const EDITCAMPAIGNSDATA = (id, obj, handleUpdateModal) => async (dispatch) => {
   try {
-    const apiResponse = await ApiService.patch(`/campaigns/${id}`, { data: obj });
+    delete obj?._id;
+    const apiResponse = await ApiService.patch(`/campaigns/${id}`, obj);
     if (apiResponse) {
       dispatch(GETCAMPAIGNSDATA());
-      formRef.current.reset();
+      handleUpdateModal();
     }
   } catch (error) {
     handleNetworkError(error);

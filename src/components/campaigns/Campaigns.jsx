@@ -14,7 +14,8 @@ function Campaigns() {
   const [selectedRow, setSelectedRow] = useState(false);
 
   const handleCreateModal = () => setCreateModal(!createModal);
-  const handleUpdateModal = (obj) => {
+
+  const handleUpdateModal = (obj={}) => {
     setSelectedRow(obj);
     setUpdateModal(!updateModal);
   };
@@ -24,7 +25,7 @@ function Campaigns() {
   };
 
   const handleUpdateCampaign = (obj) => {
-    dispatch(EDITCAMPAIGNSDATA(obj, handleUpdateModal));
+    dispatch(EDITCAMPAIGNSDATA(obj?._id, obj, handleUpdateModal));
   };
 
   // Memoizing the ViewCampaign component
@@ -51,7 +52,7 @@ function Campaigns() {
         campaignData={selectedRow}
           open={updateModal}
           onClose={handleUpdateModal}
-          onCreate={handleUpdateCampaign}
+          onUpdate={handleUpdateCampaign}
         />
       )}
     </div>
