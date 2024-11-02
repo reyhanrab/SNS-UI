@@ -26,7 +26,7 @@ export const LOGIN = (obj, formRef, navigate) => async () => {
       navigate("/dashboard");
       localStorage.setItem("email", apiResponse.data.results.email);
       localStorage.setItem("userId", apiResponse.data.results._id);
-      localStorage.setItem("name", `${apiResponse.data.results.firstname} ${apiResponse.data.results.firstname}`);
+      localStorage.setItem("name", `${apiResponse.data.results.firstname} ${apiResponse.data.results.lastname}`);
     } else {
       dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.results.message);
     }
