@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
-import { GETCAMPAIGNSDATA } from "../../../actions/campaigns/ActionCreators";
+import { DELETECAMPAIGNSDATA, GETCAMPAIGNSDATA } from "../../../actions/campaigns/ActionCreators";
 
 // Define headers for the table
 const headers = [
@@ -33,7 +33,7 @@ const headers = [
   { id: "isActive", label: "Active" },
 ];
 
-const ViewCampaign = ({ handleUpdateModal }) => {
+const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -58,7 +58,8 @@ const ViewCampaign = ({ handleUpdateModal }) => {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    dispatch(GETCAMPAIGNSDATA(currentPage, limit));
+    const filter = { isActive: true };
+    dispatch(GETCAMPAIGNSDATA(currentPage, limit, filter));
   }, [currentPage, dispatch, limit]);
 
   useEffect(() => {
@@ -109,7 +110,7 @@ const ViewCampaign = ({ handleUpdateModal }) => {
                 }}
               >
                 Actions
-              </TableCell>{" "}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -119,13 +120,14 @@ const ViewCampaign = ({ handleUpdateModal }) => {
                   <TableCell
                     key={header.id}
                     sx={{
-                      maxWidth: header.id === "description" ? 200 : "auto",
-                      overflow: header.id === "description" ? "hidden" : "visible",
+                      maxWidth: header.id === "description" || header.id === "title" ? 200 : "auto",
+                      overflow:
+                        header.id === "description" || header.id === "title" ? "hidden" : "visible",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {header.id === "description" ? (
+                    {header.id === "description" || header.id === "title" ? (
                       <Tooltip title={row[header.id]} arrow>
                         <span>{row[header.id]}</span>
                       </Tooltip>
@@ -163,10 +165,17 @@ const ViewCampaign = ({ handleUpdateModal }) => {
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
+        sx={{ cursor: "pointer" }}
       >
         <List>
-          <ListItem button onClick={()=>handleUpdateModal(selectedRow)}>
-            <ListItemText primary={`Update ${selectedRow ? selectedRow.title : ""}`} />
+          <ListItem button onClick={() => handleDetailsModal(selectedRow)}>
+            <ListItemText primary="Details" />
+          </ListItem>
+          <ListItem button onClick={() => handleUpdateModal(selectedRow)}>
+            <ListItemText primary="Update" />
+          </ListItem>
+          <ListItem button onClick={() => dispatch(DELETECAMPAIGNSDATA(selectedRow._id))}>
+            <ListItemText primary="Delete" />
           </ListItem>
         </List>
       </Popover>
