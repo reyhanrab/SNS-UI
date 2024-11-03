@@ -99,9 +99,11 @@ const CampaignDetails = ({ open, onClose, campaignData, onCreate }) => {
         <Button onClick={onClose} variant="outlined" color="secondary">
           Close
         </Button>
-        <Button onClick={() => onCreate(campaignData._id)} variant="contained" color="primary">
-          Register
-        </Button>
+        {localStorage.getItem("role") === "admin" || localStorage.getItem("role") === "volunteer" && (
+          <Button onClick={() => onCreate(campaignData._id)} variant="contained" color="primary">
+            Register
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

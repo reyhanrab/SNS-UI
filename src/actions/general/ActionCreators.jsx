@@ -8,7 +8,7 @@ export const SIGNUP = (obj, formRef, navigate) => async (dispatch) => {
       formRef.current.reset();
       dispatchApiMessage(dispatch, SUCCESSMSG, apiResponse.data.message);
       setTimeout(() => {
-        navigate("/login")
+        navigate("/login");
       }, 2000);
     } else {
       dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.message);
@@ -26,7 +26,11 @@ export const LOGIN = (obj, formRef, navigate) => async () => {
       navigate("/dashboard");
       localStorage.setItem("email", apiResponse.data.results.email);
       localStorage.setItem("userId", apiResponse.data.results._id);
-      localStorage.setItem("name", `${apiResponse.data.results.firstname} ${apiResponse.data.results.lastname}`);
+      localStorage.setItem(
+        "name",
+        `${apiResponse.data.results.firstname} ${apiResponse.data.results.lastname}`
+      );
+      localStorage.setItem("role", apiResponse.data.results.role);
     } else {
       dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.results.message);
     }

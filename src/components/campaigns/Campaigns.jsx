@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import ViewCampaign from "./view/ViewCampaign";
 import { Toolbar, Typography, Button, Tabs, Tab, Box } from "@mui/material";
 import CreateCampaign from "./create/CreateCampaign";
-import { ADDCAMPAIGNSDATA, EDITCAMPAIGNSDATA, REGISTERFORCAMPAGIN } from "../../actions/campaigns/ActionCreators";
+import {
+  ADDCAMPAIGNSDATA,
+  EDITCAMPAIGNSDATA,
+  REGISTERFORCAMPAGIN,
+} from "../../actions/campaigns/ActionCreators";
 import UpdateCampaign from "./update/UpdateCampaign";
 import ViewHistoricalCampaign from "./view/ViewHistoricalCampaign";
 import CampaignDetails from "./details/CampaignDetails";
+import Registrations from "../Registrations/Registrations";
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -76,44 +81,46 @@ function Campaigns() {
   const MemoizedViewHistoricalCampaign = React.memo(ViewHistoricalCampaign);
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-        <Typography variant="h6">All Campaigns</Typography>
+    <>
+      <Box sx={{ width: "100%" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+          <Typography variant="h6">All Campaigns</Typography>
 
-        {/* -------------------------------- Tabs --------------------------------- */}
+          {/* -------------------------------- Tabs --------------------------------- */}
 
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          centered
-          sx={{
-            "& .MuiTabs-flexContainer": { display: "flex", alignItems: "center" },
-            "& .MuiTab-root:focus-visible": { outline: "none" }, // Remove focus outline
-          }}
-        >
-          <Tab label="Current" sx={{ "&:focus-visible": { outline: "none" } }} />
-          <Tab label="Historical" sx={{ "&:focus-visible": { outline: "none" } }} />
-        </Tabs>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            centered
+            sx={{
+              "& .MuiTabs-flexContainer": { display: "flex", alignItems: "center" },
+              "& .MuiTab-root:focus-visible": { outline: "none" }, // Remove focus outline
+            }}
+          >
+            <Tab label="Current" sx={{ "&:focus-visible": { outline: "none" } }} />
+            <Tab label="Historical" sx={{ "&:focus-visible": { outline: "none" } }} />
+          </Tabs>
 
-        <Button variant="contained" color="secondary" onClick={handleCreateModal}>
-          Create
-        </Button>
-      </Toolbar>
+          <Button variant="contained" color="secondary" onClick={handleCreateModal}>
+            Create
+          </Button>
+        </Toolbar>
 
-      {/* -------------------------------- Tab Panel ---------------------------------- */}
+        {/* -------------------------------- Tab Panel ---------------------------------- */}
 
-      <TabPanel value={activeTab} index={0}>
-        <MemoizedViewCampaign
-          handleUpdateModal={handleUpdateModal}
-          handleDetailsModal={handleDetailsModal}
-        />
-      </TabPanel>
-      <TabPanel value={activeTab} index={1}>
-        <MemoizedViewHistoricalCampaign
-          handleUpdateModal={handleUpdateModal}
-          handleDetailsModal={handleDetailsModal}
-        />
-      </TabPanel>
+        <TabPanel value={activeTab} index={0}>
+          <MemoizedViewCampaign
+            handleUpdateModal={handleUpdateModal}
+            handleDetailsModal={handleDetailsModal}
+          />
+        </TabPanel>
+        <TabPanel value={activeTab} index={1}>
+          <MemoizedViewHistoricalCampaign
+            handleUpdateModal={handleUpdateModal}
+            handleDetailsModal={handleDetailsModal}
+          />
+        </TabPanel>
+      </Box>
 
       {/* -------------------------------- Create Campaign ---------------------------------- */}
 
@@ -146,7 +153,9 @@ function Campaigns() {
           onCreate={handleCampaignRegistration}
         />
       )}
-    </Box>
+
+      {localStorage.getItem("role") === "volunteer" ? <Registrations /> : <></>}
+    </>
   );
 }
 

@@ -60,7 +60,7 @@ const RightSidebar = () => {
         <>
           <Divider sx={{ my: 1 }} />
           <Collapse in={areNotificationsOpen}>
-            <Notifications /> {/* Notifications component */}
+            <Notifications />
           </Collapse>
         </>
       )}

@@ -80,6 +80,15 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
     setCurrentPage(page);
   };
 
+  // Helper function to determine if a campaign is ongoing
+  const isOngoingCampaign = (startDate, endDate) => {
+    const today = new Date();
+    return (
+      new Date(startDate) <= today &&
+      today <= new Date(endDate)
+    );
+  };
+
   return (
     <>
       <TableContainer component={Paper} sx={{ maxHeight: "600px", overflow: "auto" }}>
@@ -115,7 +124,14 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
           </TableHead>
           <TableBody>
             {campaignsData.map((row, index) => (
-              <TableRow key={index}>
+              <TableRow
+                key={index}
+                sx={{
+                  backgroundColor: isOngoingCampaign(row.startDate, row.endDate)
+                    ? "#e0f7fa" // Light teal color for ongoing campaigns
+                    : "inherit",
+                }}
+              >
                 {headers.map((header) => (
                   <TableCell
                     key={header.id}
@@ -132,15 +148,11 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
                         <span>{row[header.id]}</span>
                       </Tooltip>
                     ) : header.id === "startDate" || header.id === "endDate" ? (
-                      new Date(row[header.id]).toLocaleDateString()
+                      new Date(row[header.id]).toLocaleString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })
                     ) : header.id === "targetAmount" || header.id === "raisedAmount" ? (
                       `$${row[header.id].toLocaleString()}`
                     ) : header.id === "isActive" ? (
-                      row[header.id] ? (
-                        "Yes"
-                      ) : (
-                        "No"
-                      )
+                      row[header.id] ? "Yes" : "No"
                     ) : (
                       row[header.id]
                     )}
@@ -171,12 +183,16 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
           <ListItem button onClick={() => handleDetailsModal(selectedRow)}>
             <ListItemText primary="Details" />
           </ListItem>
-          <ListItem button onClick={() => handleUpdateModal(selectedRow)}>
-            <ListItemText primary="Update" />
-          </ListItem>
-          <ListItem button onClick={() => dispatch(DELETECAMPAIGNSDATA(selectedRow._id))}>
-            <ListItemText primary="Delete" />
-          </ListItem>
+          {localStorage.getItem("role") === "admin" && (
+            <>
+              <ListItem button onClick={() => handleUpdateModal(selectedRow)}>
+                <ListItemText primary="Update" />
+              </ListItem>
+              <ListItem button onClick={() => dispatch(DELETECAMPAIGNSDATA(selectedRow._id))}>
+                <ListItemText primary="Delete" />
+              </ListItem>
+            </>
+          )}
         </List>
       </Popover>
 
