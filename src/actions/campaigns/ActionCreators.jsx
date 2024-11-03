@@ -66,27 +66,3 @@ export const REGISTERFORCAMPAGIN = (id, userId, handleDialog) => async (dispatch
     handleNetworkError(error);
   }
 };
-
-export const CAMPAIGNCHECKIN = (id, userId, handleDialog) => async (dispatch) => {
-  try {
-    const apiResponse = await ApiService.post(`/campaign/${id}/check-in`, {volunteer: userId});
-    if (apiResponse) {
-      dispatch(GETCAMPAIGNSDATA());
-      handleDialog();
-    }
-  } catch (error) {
-    handleNetworkError(error);
-  }
-};
-
-export const CAMPAIGNCHECKOUT = (id, userId, handleDialog) => async (dispatch) => {
-  try {
-    const apiResponse = await ApiService.post(`/campaign/${id}/check-out`, {volunteer: userId});
-    if (apiResponse) {
-      dispatch(GETCAMPAIGNSDATA());
-      handleDialog();
-    }
-  } catch (error) {
-    handleNetworkError(error);
-  }
-};

@@ -168,12 +168,14 @@ const ViewHistoricalCampaign = ({ handleUpdateModal }) => {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <List>
-        <ListItem button onClick={()=>handleUpdateModal(selectedRow)}>
+          <ListItem button onClick={() => handleUpdateModal(selectedRow)}>
             <ListItemText primary="Details" />
           </ListItem>
-          <ListItem button onClick={()=>handleUpdateModal(selectedRow)}>
-            <ListItemText primary="Delete" />
-          </ListItem>
+          {localStorage.getItem("role") === "admin" && (
+            <ListItem button onClick={() => handleUpdateModal(selectedRow)}>
+              <ListItemText primary="Delete" />
+            </ListItem>
+          )}
         </List>
       </Popover>
 
