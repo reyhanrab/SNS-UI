@@ -21,6 +21,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
 import { GETCAMPAIGNSDATA } from "../../../actions/campaigns/ActionCreators";
+import { formatDate } from "../../../common/utils";
 
 // Define headers for the table
 const headers = [
@@ -133,7 +134,7 @@ const ViewHistoricalCampaign = ({ handleUpdateModal }) => {
                         <span>{row[header.id]}</span>
                       </Tooltip>
                     ) : header.id === "startDate" || header.id === "endDate" ? (
-                      new Date(row[header.id]).toLocaleDateString()
+                      formatDate(row[header.id])
                     ) : header.id === "targetAmount" || header.id === "raisedAmount" ? (
                       `$${row[header.id].toLocaleString()}`
                     ) : header.id === "isActive" ? (

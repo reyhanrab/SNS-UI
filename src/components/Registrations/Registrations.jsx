@@ -34,10 +34,10 @@ function Registrations() {
     setActiveTab(newValue);
   };
 
-  // Memoizing the MyCampaign component
+  // Memoizing the My Registration component
   const MemoizedViewRegistrations = React.memo(ViewRegistrations);
 
-  // Memoizing the MyCampaign component
+  // Memoizing the My Historical Registration component
   const MemoizedViewHistoricalRegistrations = React.memo(ViewHistoricalRegistrations);
 
   return (

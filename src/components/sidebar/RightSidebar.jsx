@@ -29,10 +29,10 @@ const RightSidebar = () => {
       variant="permanent"
       open={isOpen}
       sx={{
-        width: isOpen ? 240 : 60,
+        width: isOpen ? 300 : 60,
         transition: "width 0.3s",
         "& .MuiDrawer-paper": {
-          width: isOpen ? 240 : 60,
+          width: isOpen ? 300 : 60,
           transition: "width 0.3s",
           overflow: "hidden",
         },
@@ -43,7 +43,7 @@ const RightSidebar = () => {
           display: "flex",
           justifyContent: isOpen ? "space-between" : "center",
           alignItems: "center",
-          padding: "16px 8px",
+          padding: "8px",
         }}
       >
         <IconButton onClick={toggleSidebar}>{isOpen ? <ExpandLess /> : <ExpandMore />}</IconButton>
@@ -51,7 +51,7 @@ const RightSidebar = () => {
           <IconButton onClick={toggleNotifications}>
             {/* {areNotificationsOpen ? <ExpandLess /> : <ExpandMore />}
              */}
-             <NotificationImportant color="action" />
+            <NotificationImportant color="action" />
           </IconButton>
         )}
       </Box>
@@ -94,23 +94,22 @@ const Notifications = () => {
     }
   };
 
-  console.log("notifications", notifications);
-
   return (
-    <Box sx={{ width: 250, padding: 2, maxHeight: 400, overflowY: "auto" }}>
+    <Box sx={{ width: "auto", padding: 2, maxHeight: 400, overflowY: "auto" }}>
       <Typography variant="h6" gutterBottom>
         Notifications
       </Typography>
       <Divider />
       <List>
-        {notifications.map((noitification) => (
-          <ListItem key={noitification._id}>
+        {notifications.map((notification) => (
+          <ListItem key={notification._id}>
             <ListItemIcon>
               <NotificationIcon />
             </ListItemIcon>
             <ListItemText
-              primary={noitification.notificationType}
-              secondary={noitification?.campaign?.title}
+              primary={notification.notificationType}
+              secondary={notification?.campaign?.title}
+              sx={{ ml: 2 }} // Add margin-left for spacing
             />
           </ListItem>
         ))}

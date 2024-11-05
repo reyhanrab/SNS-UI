@@ -11,9 +11,18 @@ import {
   FormControl,
   FormLabel,
   Checkbox,
+  Divider,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const CampaignDetails = ({ open, onClose, campaignData, onCreate }) => {
+  const registrationsData = useSelector((state) => state.RegistrationsReducer.registrationsData);
+
+  const getRegisteredCampaignIds = (registrations) => {
+    return registrations.map((reg) => reg.campaign._id);
+  };
+  const registeredCampaignIds = getRegisteredCampaignIds(registrationsData);
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>
@@ -21,6 +30,8 @@ const CampaignDetails = ({ open, onClose, campaignData, onCreate }) => {
           Campaign Details
         </Typography>
       </DialogTitle>
+
+      <Divider sx={{ my: 1 }} />
 
       <DialogContent>
         <Box sx={{ mt: 2 }}>
@@ -93,17 +104,27 @@ const CampaignDetails = ({ open, onClose, campaignData, onCreate }) => {
             </Grid>
           </Grid>
         </Box>
+        {registeredCampaignIds.includes(campaignData._id) && (
+          <Typography variant="body2" color="primary">
+            You have already registered for the campaign, We look forward to seeing you
+          </Typography>
+        )}
       </DialogContent>
+
+      <Divider sx={{ my: 1 }} />
+
 
       <DialogActions sx={{ justifyContent: "center", pb: 2 }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           Close
         </Button>
-        {localStorage.getItem("role") === "admin" || localStorage.getItem("role") === "volunteer" && (
-          <Button onClick={() => onCreate(campaignData._id)} variant="contained" color="primary">
-            Register
-          </Button>
-        )}
+        {(localStorage.getItem("role") === "admin" ||
+          localStorage.getItem("role") === "volunteer") &&
+          !registeredCampaignIds.includes(campaignData._id) && (
+            <Button onClick={() => onCreate(campaignData._id)} variant="contained" color="primary">
+              Register
+            </Button>
+          )}
       </DialogActions>
     </Dialog>
   );
