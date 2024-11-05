@@ -21,6 +21,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
 
 import { GETREGISTRATIONS } from "../../../actions/registrations/ActionCreators";
+import { formatDate } from "../../../common/utils";
 
 // Define headers for the table
 const headers = [
@@ -140,13 +141,13 @@ const MyHistoricalCampaign = ({ handleDetailsModal }) => {
                         </Tooltip>
                       ) : header.id === "startDate" ? (
                         row.campaign?.startDate ? (
-                          new Date(row.campaign.startDate).toLocaleDateString()
+                          formatDate(row.campaign.startDate)
                         ) : (
                           "N/A"
                         )
                       ) : header.id === "registrationDate" ? (
                         row[header.id] ? (
-                          new Date(row[header.id]).toLocaleDateString()
+                          formatDate(row[header.id])
                         ) : (
                           "N/A"
                         )

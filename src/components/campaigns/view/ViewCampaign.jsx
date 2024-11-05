@@ -21,6 +21,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
 import { DELETECAMPAIGNSDATA, GETCAMPAIGNSDATA } from "../../../actions/campaigns/ActionCreators";
+import { formatDate } from "../../../common/utils";
 
 // Define headers for the table
 const headers = [
@@ -83,10 +84,7 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
   // Helper function to determine if a campaign is ongoing
   const isOngoingCampaign = (startDate, endDate) => {
     const today = new Date();
-    return (
-      new Date(startDate) <= today &&
-      today <= new Date(endDate)
-    );
+    return new Date(startDate) <= today && today <= new Date(endDate);
   };
 
   return (
@@ -148,11 +146,15 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
                         <span>{row[header.id]}</span>
                       </Tooltip>
                     ) : header.id === "startDate" || header.id === "endDate" ? (
-                      new Date(row[header.id]).toLocaleString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })
+                      formatDate(row[header.id])
                     ) : header.id === "targetAmount" || header.id === "raisedAmount" ? (
                       `$${row[header.id].toLocaleString()}`
                     ) : header.id === "isActive" ? (
-                      row[header.id] ? "Yes" : "No"
+                      row[header.id] ? (
+                        "Yes"
+                      ) : (
+                        "No"
+                      )
                     ) : (
                       row[header.id]
                     )}

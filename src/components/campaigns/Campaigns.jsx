@@ -27,36 +27,29 @@ function TabPanel({ children, value, index, ...other }) {
   );
 }
 
+const MemoizedRegistrations = React.memo(Registrations);
+
 function Campaigns() {
   const dispatch = useDispatch();
 
   const [createModal, setCreateModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const [detailsModal, setDetailsModal] = useState(false);
-
-  const [selectedRow, setSelectedRow] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
 
-  {
-    /* -------------------------------- handle various modals --------------------------------- */
-  }
-
+  // Handle various modals
   const handleCreateModal = () => setCreateModal(!createModal);
-
   const handleUpdateModal = (obj = {}) => {
     setSelectedRow(obj);
     setUpdateModal(!updateModal);
   };
-
   const handleDetailsModal = (obj = {}) => {
     setSelectedRow(obj);
     setDetailsModal(!detailsModal);
   };
 
-  {
-    /* -------------------------------- handle api calls --------------------------------- */
-  }
-
+  // Handle API calls
   const handleCreateCampaign = (obj) => {
     dispatch(ADDCAMPAIGNSDATA(obj, handleCreateModal));
   };
@@ -74,10 +67,8 @@ function Campaigns() {
     setActiveTab(newValue);
   };
 
-  // Memoizing the ViewCampaign component
+  // Memoizing components
   const MemoizedViewCampaign = React.memo(ViewCampaign);
-
-  // Memoizing the ViewCampaign component
   const MemoizedViewHistoricalCampaign = React.memo(ViewHistoricalCampaign);
 
   return (
@@ -85,29 +76,24 @@ function Campaigns() {
       <Box sx={{ width: "100%" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Typography variant="h6">All Campaigns</Typography>
-
-          {/* -------------------------------- Tabs --------------------------------- */}
-
           <Tabs
             value={activeTab}
             onChange={handleTabChange}
             centered
             sx={{
               "& .MuiTabs-flexContainer": { display: "flex", alignItems: "center" },
-              "& .MuiTab-root:focus-visible": { outline: "none" }, // Remove focus outline
+              "& .MuiTab-root:focus-visible": { outline: "none" },
             }}
           >
             <Tab label="Current" sx={{ "&:focus-visible": { outline: "none" } }} />
             <Tab label="Historical" sx={{ "&:focus-visible": { outline: "none" } }} />
           </Tabs>
-
           <Button variant="contained" color="secondary" onClick={handleCreateModal}>
             Create
           </Button>
         </Toolbar>
 
-        {/* -------------------------------- Tab Panel ---------------------------------- */}
-
+        {/* Tab Panels */}
         <TabPanel value={activeTab} index={0}>
           <MemoizedViewCampaign
             handleUpdateModal={handleUpdateModal}
@@ -122,8 +108,7 @@ function Campaigns() {
         </TabPanel>
       </Box>
 
-      {/* -------------------------------- Create Campaign ---------------------------------- */}
-
+      {/* Create Campaign Modal */}
       {createModal && (
         <CreateCampaign
           open={createModal}
@@ -132,8 +117,7 @@ function Campaigns() {
         />
       )}
 
-      {/* -------------------------------- Update Campaign ---------------------------------- */}
-
+      {/* Update Campaign Modal */}
       {updateModal && (
         <UpdateCampaign
           campaignData={selectedRow}
@@ -143,8 +127,7 @@ function Campaigns() {
         />
       )}
 
-      {/* -------------------------------- Campaign Details ---------------------------------- */}
-
+      {/* Campaign Details Modal */}
       {detailsModal && (
         <CampaignDetails
           campaignData={selectedRow}
@@ -154,7 +137,8 @@ function Campaigns() {
         />
       )}
 
-      {localStorage.getItem("role") === "volunteer" ? <Registrations /> : <></>}
+      {/* Registrations Component */}
+      {localStorage.getItem("role") === "volunteer" && <MemoizedRegistrations />}
     </>
   );
 }

@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { CAMPAIGNCHECKIN, CAMPAIGNCHECKOUT } from "../../../actions/registrations/ActionCreators";
+import { formatDate } from "../../../common/utils";
 
 const RegistrationDetails = ({ open, onClose, registrationData }) => {
   const dispatch = useDispatch();
@@ -23,22 +24,32 @@ const RegistrationDetails = ({ open, onClose, registrationData }) => {
   const [messageVisible, setMessageVisible] = useState(false); // State to control visibility
 
   const handleCheckIn = async (id) => {
-    const responseMessage = await dispatch(CAMPAIGNCHECKIN(id, onClose));
+    const responseMessage = await dispatch(CAMPAIGNCHECKIN(id));
     setMessage(responseMessage); // Update the message
     setMessageVisible(true); // Show the message
+    setTimeout(() => {
+      onClose();
+    }, 3000);
+
   };
 
   const handleCheckOut = async (id) => {
-    const responseMessage = await dispatch(CAMPAIGNCHECKOUT(id, onClose));
+    const responseMessage = await dispatch(CAMPAIGNCHECKOUT(id));
     setMessage(responseMessage); // Update the message
     setMessageVisible(true); // Show the message
+    setTimeout(() => {
+      onClose();
+    }, 3000);
   };
 
   const today = new Date();
   const startDate = new Date(registrationData.campaign?.startDate);
 
-  const isCheckInEnabled = today.toDateString() === startDate.toDateString();
-  const isCheckOutEnabled = Boolean(registrationData.campaign?.checkInDate); // Check if user has checked in
+  // Set both dates to UTC for comparison
+  const isCheckInEnabled =
+    today.toUTCString().slice(0, 16) === startDate.toUTCString().slice(0, 16) && !Boolean(registrationData?.checkInDate);
+  const isCheckOutEnabled = Boolean(registrationData?.checkInDate) && !Boolean(registrationData?.checkOutDate);
+  // Check if user has checked in
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -66,7 +77,7 @@ const RegistrationDetails = ({ open, onClose, registrationData }) => {
               <FormControl fullWidth>
                 <FormLabel sx={{ mb: 0.5, color: "#6d6d6d" }}>Registration Date</FormLabel>
                 <Typography variant="body1" sx={{ fontWeight: "medium", color: "#333" }}>
-                  {new Date(registrationData.registrationDate).toLocaleDateString()}
+                  {formatDate(registrationData.registrationDate)}
                 </Typography>
               </FormControl>
             </Grid>
@@ -82,9 +93,7 @@ const RegistrationDetails = ({ open, onClose, registrationData }) => {
               <FormControl fullWidth>
                 <FormLabel sx={{ mb: 0.5, color: "#6d6d6d" }}>Check-In Date</FormLabel>
                 <Typography variant="body1" sx={{ fontWeight: "medium", color: "#333" }}>
-                  {registrationData.checkInDate
-                    ? new Date(registrationData.checkInDate).toLocaleDateString()
-                    : "N/A"}
+                  {registrationData.checkInDate ? formatDate(registrationData.checkInDate) : "N/A"}
                 </Typography>
               </FormControl>
             </Grid>
@@ -93,7 +102,7 @@ const RegistrationDetails = ({ open, onClose, registrationData }) => {
                 <FormLabel sx={{ mb: 0.5, color: "#6d6d6d" }}>Check-Out Date</FormLabel>
                 <Typography variant="body1" sx={{ fontWeight: "medium", color: "#333" }}>
                   {registrationData.checkOutDate
-                    ? new Date(registrationData.checkOutDate).toLocaleDateString()
+                    ? formatDate(registrationData.checkOutDate)
                     : "N/A"}
                 </Typography>
               </FormControl>
@@ -152,7 +161,7 @@ const RegistrationDetails = ({ open, onClose, registrationData }) => {
               <FormControl fullWidth>
                 <FormLabel sx={{ mb: 0.5, color: "#6d6d6d" }}>Start Date</FormLabel>
                 <Typography variant="body1" sx={{ fontWeight: "medium", color: "#333" }}>
-                  {new Date(registrationData.campaign?.startDate).toLocaleDateString()}
+                  {formatDate(registrationData.campaign?.startDate)}
                 </Typography>
               </FormControl>
             </Grid>
@@ -160,7 +169,7 @@ const RegistrationDetails = ({ open, onClose, registrationData }) => {
               <FormControl fullWidth>
                 <FormLabel sx={{ mb: 0.5, color: "#6d6d6d" }}>End Date</FormLabel>
                 <Typography variant="body1" sx={{ fontWeight: "medium", color: "#333" }}>
-                  {new Date(registrationData.campaign?.endDate).toLocaleDateString()}
+                  {formatDate(registrationData.campaign?.endDate)}
                 </Typography>
               </FormControl>
             </Grid>
@@ -179,11 +188,11 @@ const RegistrationDetails = ({ open, onClose, registrationData }) => {
         </Box>
         {/* Check-in eligibility message */}
         <Box sx={{ mt: 2 }}>
-        {!isCheckInEnabled && (
-          <Typography variant="body2" sx={{ color: "red", textAlign: "center", mb: 2 }}>
-            You can only check in on the campaign's start date: {startDate.toLocaleDateString()}.
-          </Typography>
-        )}
+          {!isCheckInEnabled && (
+            <Typography variant="body2" sx={{ color: "red", textAlign: "center", mb: 2 }}>
+              You can only check in on the campaign's start date: {startDate.toLocaleDateString()}.
+            </Typography>
+          )}
           {messageVisible && (
             <Typography variant="body1" sx={{ color: "green", textAlign: "center", mt: 2 }}>
               {message}

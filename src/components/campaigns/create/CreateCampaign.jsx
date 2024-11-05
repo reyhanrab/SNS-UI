@@ -51,6 +51,8 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
         </Typography>
       </DialogTitle>
 
+      <Divider sx={{ my: 1 }} />
+
       <DialogContent>
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={3}>
@@ -188,6 +190,8 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
           </Grid>
         </Box>
       </DialogContent>
+
+      <Divider sx={{ my: 1 }} />
 
       <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
