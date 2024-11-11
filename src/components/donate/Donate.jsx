@@ -27,9 +27,52 @@ const PaymentForm = ({ campaign }) => {
   const [currency, setCurrency] = useState(""); // State for currency
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleSubmit = () => {
-    
-  }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!stripe || !elements) return;
+
+    setIsProcessing(true);
+
+    try {
+      // Create a payment method using the card details
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardNumberElement),
+        billing_details: {
+          name: cardHolderName,
+          address: {
+            line1: address,
+            country: country,
+          },
+        },
+      });
+
+      if (error) {
+        setMessage(`Payment method creation failed: ${error.message}`);
+        setIsProcessing(false);
+        return;
+      }
+
+      // Send the paymentMethod.id to the backend to complete the payment
+      const { data } = await axios.post("http://localhost:3000/api/v1/donation/donate", {
+        amount: amount, // Adjust this as necessary
+        cardHolderName,
+        country,
+        address,
+        cardType,
+        currency,
+        paymentMethodId: paymentMethod.id,
+        userId: localStorage.getItem("userId"),
+        campaignId: campaign._id,
+      });
+
+      setMessage(data.message);
+    } catch (error) {
+      setMessage(`Payment error: ${error.message}`);
+    }
+
+    setIsProcessing(false);
+  };
 
   const cardElementOptions = {
     style: {
