@@ -17,7 +17,7 @@ import { GETNOTIFICATIONS } from "../../actions/notifications/ActionCreators";
 import { useDispatch, useSelector } from "react-redux";
 
 const RightSidebar = () => {
-  const [isOpen, setIsOpen] = useState(true); // State to manage open/close
+  const [isOpen, setIsOpen] = useState(false); // State to manage open/close
   const [areNotificationsOpen, setAreNotificationsOpen] = useState(true); // State to manage notifications open/close
 
   const toggleSidebar = useCallback(() => setIsOpen((prev) => !prev), []);
