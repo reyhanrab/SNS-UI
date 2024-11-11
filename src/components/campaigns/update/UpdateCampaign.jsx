@@ -13,6 +13,7 @@ import {
   Typography,
   FormControl,
   FormLabel,
+  Divider,
 } from '@mui/material';
 
 const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {

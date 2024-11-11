@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
-const CampaignDetails = ({ open, onClose, campaignData, onCreate }) => {
+const CampaignDetails = ({ open, onClose, campaignData, onRegister, onDonate }) => {
   const registrationsData = useSelector((state) => state.RegistrationsReducer.registrationsData);
 
   const getRegisteredCampaignIds = (registrations) => {
@@ -113,7 +113,6 @@ const CampaignDetails = ({ open, onClose, campaignData, onCreate }) => {
 
       <Divider sx={{ my: 1 }} />
 
-
       <DialogActions sx={{ justifyContent: "center", pb: 2 }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           Close
@@ -121,8 +120,18 @@ const CampaignDetails = ({ open, onClose, campaignData, onCreate }) => {
         {(localStorage.getItem("role") === "admin" ||
           localStorage.getItem("role") === "volunteer") &&
           !registeredCampaignIds.includes(campaignData._id) && (
-            <Button onClick={() => onCreate(campaignData._id)} variant="contained" color="primary">
+            <Button
+              onClick={() => onRegister(campaignData._id)}
+              variant="contained"
+              color="primary"
+            >
               Register
+            </Button>
+          )}
+        {(localStorage.getItem("role") === "admin" || localStorage.getItem("role") === "donor") &&
+          !registeredCampaignIds.includes(campaignData) && (
+            <Button onClick={() => onDonate(campaignData)} variant="contained" color="primary">
+              Donate
             </Button>
           )}
       </DialogActions>
