@@ -44,6 +44,7 @@ const Sidebar = () => {
       { path: "/dashboard", label: "Dashboard", icon: <Home /> },
       { path: "/dashboard/campaigns", label: "Campaigns", icon: <Analytics /> },
       { path: "/dashboard/donations", label: "Donations", icon: <Settings /> },
+      // { path: "/dashboard/donate", label: "Donate", icon: <Settings /> },
     ],
     []
   );

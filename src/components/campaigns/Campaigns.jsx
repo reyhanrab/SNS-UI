@@ -10,8 +10,9 @@ import {
 } from "../../actions/campaigns/ActionCreators";
 import UpdateCampaign from "./update/UpdateCampaign";
 import ViewHistoricalCampaign from "./view/ViewHistoricalCampaign";
-import CampaignDetails from "./details/CampaignDetails";
 import Registrations from "../Registrations/Registrations";
+import { useNavigate } from "react-router-dom";
+import CampaignDetails from "./details/CampaignDetails";
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -31,6 +32,7 @@ const MemoizedRegistrations = React.memo(Registrations);
 
 function Campaigns() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [createModal, setCreateModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
@@ -60,6 +62,12 @@ function Campaigns() {
 
   const handleCampaignRegistration = (id) => {
     dispatch(REGISTERFORCAMPAGIN(id, localStorage.getItem("userId"), handleDetailsModal));
+  };
+
+  const handleDonation = (obj) => {
+    navigate("/dashboard/donate", {
+      state: obj,
+    });
   };
 
   // Handling tab change
@@ -133,7 +141,8 @@ function Campaigns() {
           campaignData={selectedRow}
           open={detailsModal}
           onClose={handleDetailsModal}
-          onCreate={handleCampaignRegistration}
+          onRegister={handleCampaignRegistration}
+          onDonate={handleDonation}
         />
       )}
 
