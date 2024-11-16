@@ -1,0 +1,5 @@
+export const SAVE_USER_DATA = "SAVE_USER_DATA";
+
+export const SAVE_USER_DATA_BYID = "SAVE_USER_DATA_BYID";
+
+
