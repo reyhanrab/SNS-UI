@@ -20,26 +20,30 @@ export const GETREGISTRATIONS =
     }
   };
 
-  export const CAMPAIGNCHECKIN = (id) => async (dispatch) => {
+  export const CAMPAIGNCHECKIN = (id, onClose) => async (dispatch) => {
     try {
       const apiResponse = await ApiService.post(`/registration/${id}/check-in`);
       if (apiResponse) {
         dispatch(GETREGISTRATIONS());
+        onClose();
         return "Successfully checked in!"; // Return success message
       }
     } catch (error) {
       handleNetworkError(error);
+      return "Check-in failed, please try again."; // Return failure message
     }
   };
   
-  export const CAMPAIGNCHECKOUT = (id) => async (dispatch) => {
+  export const CAMPAIGNCHECKOUT = (id, onClose) => async (dispatch) => {
     try {
       const apiResponse = await ApiService.post(`/registration/${id}/check-out`);
       if (apiResponse) {
         dispatch(GETREGISTRATIONS());
+        onClose();
         return "Successfully checked out!"; // Return success message
       }
     } catch (error) {
       handleNetworkError(error);
+      return "Check-out failed, please try again."; // Return failure message
     }
   };

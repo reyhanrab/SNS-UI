@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -10,14 +10,17 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import "./Donate.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Card, CardContent, Typography, Divider } from "@mui/material";
+import { GETCAMPAIGNBYID } from "../../actions/campaigns/ActionCreators";
+import { useDispatch, useSelector } from "react-redux";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PUBLISH_KEY}`);
 
-const PaymentForm = ({ campaign }) => {
+const PaymentForm = ({ campaign, handleGetCampaginById }) => {
   const stripe = useStripe();
   const elements = useElements();
+
   const [amount, setAmount] = useState("");
   const [cardHolderName, setCardHolderName] = useState("");
   const [country, setCountry] = useState("");
@@ -66,6 +69,17 @@ const PaymentForm = ({ campaign }) => {
         campaignId: campaign._id,
       });
 
+      if (data.message) {
+        setAmount("");
+        setCardHolderName("");
+        setCountry("");
+        setAddress("");
+        setCardType("");
+        setCurrency("");
+      }
+
+      handleGetCampaginById();
+
       setMessage(data.message);
     } catch (error) {
       setMessage(`Payment error: ${error.message}`);
@@ -93,19 +107,19 @@ const PaymentForm = ({ campaign }) => {
   return (
     <Card
       sx={{
-        backgroundColor: '#f0f8ff',
-        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+        backgroundColor: "#f0f8ff",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         borderRadius: 3,
         padding: 2,
-        maxWidth: '600px',
-        margin: '0 auto',
+        maxWidth: "600px",
+        margin: "0 auto",
       }}
     >
       <CardContent>
         <div className="payment-container">
           <form onSubmit={handleSubmit} className="payment-form">
             <h2>Complete Your Payment</h2>
-  
+
             <div className="form-row">
               <input
                 type="text"
@@ -124,25 +138,25 @@ const PaymentForm = ({ campaign }) => {
                 className="input-field"
               />
             </div>
-  
+
             <div className="form-row">
               <div className="card-input-container">
                 <label>Card Number</label>
                 <CardNumberElement options={cardElementOptions} className="card-element" />
               </div>
-  
+
               <div className="card-input-container">
                 <label>Expiration Date</label>
                 <CardExpiryElement options={cardElementOptions} className="card-element" />
               </div>
             </div>
-  
+
             <div className="form-row">
               <div className="card-input-container">
                 <label>CVC</label>
                 <CardCvcElement options={cardElementOptions} className="card-element" />
               </div>
-  
+
               <div className="card-input-container">
                 <label>Country</label>
                 <select
@@ -151,14 +165,16 @@ const PaymentForm = ({ campaign }) => {
                   required
                   className="input-field"
                 >
-                  <option value="" disabled>Select Country</option>
+                  <option value="" disabled>
+                    Select Country
+                  </option>
                   <option value="US">United States</option>
                   <option value="CA">Canada</option>
                   <option value="GB">United Kingdom</option>
                 </select>
               </div>
             </div>
-  
+
             <div className="form-row">
               <div className="card-input-container">
                 <label>Card Type</label>
@@ -168,12 +184,14 @@ const PaymentForm = ({ campaign }) => {
                   required
                   className="input-field"
                 >
-                  <option value="" disabled>Select Card Type</option>
+                  <option value="" disabled>
+                    Select Card Type
+                  </option>
                   <option value="Visa">Visa</option>
                   <option value="MasterCard">MasterCard</option>
                 </select>
               </div>
-  
+
               <div className="card-input-container">
                 <label>Currency</label>
                 <select
@@ -182,14 +200,16 @@ const PaymentForm = ({ campaign }) => {
                   required
                   className="input-field"
                 >
-                  <option value="" disabled>Select Currency</option>
+                  <option value="" disabled>
+                    Select Currency
+                  </option>
                   <option value="USD">USD - United States Dollar</option>
                   <option value="CAD">CAD - Canadian Dollar</option>
                   <option value="GBP">GBP - British Pound</option>
                 </select>
               </div>
             </div>
-  
+
             {/* New input field for amount */}
             <div className="form-row">
               <div className="card-input-container">
@@ -204,13 +224,9 @@ const PaymentForm = ({ campaign }) => {
                 />
               </div>
             </div>
-  
-            <button
-              type="submit"
-              disabled={!stripe || isProcessing}
-              className="payment-button"
-            >
-              {isProcessing ? 'Processing...' : 'Submit'}
+
+            <button type="submit" disabled={!stripe || isProcessing} className="payment-button">
+              {isProcessing ? "Processing..." : "Submit"}
             </button>
             {message && <p className="payment-message">{message}</p>}
           </form>
@@ -221,64 +237,78 @@ const PaymentForm = ({ campaign }) => {
 };
 
 const Donate = () => {
-  const location = useLocation();
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
+
+  const campaginById = useSelector((state) => state.CampaignsReducer.campaginById);
+
+  useEffect(() => {
+    dispatch(GETCAMPAIGNBYID(id));
+  }, []);
+
+  const handleGetCampaginById = () => {
+    dispatch(GETCAMPAIGNBYID(id));
+  };
 
   return (
     <Elements stripe={stripePromise}>
-      {location.state && <CampaignDetails campaign={location.state} />}
-      <PaymentForm campaign={location.state} />
+      {campaginById && <CampaignDetails campaign={campaginById} />}
+      <PaymentForm campaign={campaginById} handleGetCampaginById={handleGetCampaginById} />
     </Elements>
   );
 };
 
 const CampaignDetails = ({ campaign }) => {
-  return (
-    <Card
-      sx={{
-        backgroundColor: "#f0f8ff",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-        borderRadius: 3,
-        padding: 2,
-        mb: 3,
-        maxWidth: "600px",
-      }}
-    >
-      <CardContent>
-        <Typography
-          variant="h5"
-          component="div"
-          gutterBottom
-          sx={{ fontWeight: "bold", color: "#0077b6" }}
-        >
-          {campaign.title}
-        </Typography>
-        <Typography variant="body1" color="text.secondary" paragraph>
-          {campaign.description}
-        </Typography>
+  if (Object.keys(campaign).length > 0) {
+    return (
+      <Card
+        sx={{
+          backgroundColor: "#f0f8ff",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          borderRadius: 3,
+          padding: 2,
+          mb: 3,
+          maxWidth: "600px",
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h5"
+            component="div"
+            gutterBottom
+            sx={{ fontWeight: "bold", color: "#0077b6" }}
+          >
+            {campaign.title}
+          </Typography>
+          <Typography variant="body1" color="text.secondary" paragraph>
+            {campaign.description}
+          </Typography>
 
-        <Divider sx={{ my: 2 }} />
+          <Divider sx={{ my: 2 }} />
 
-        <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
-          Target Amount: <strong>${campaign.targetAmount.toLocaleString()}</strong>
-        </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
-          Raised Amount: <strong>${campaign.raisedAmount.toLocaleString()}</strong>
-        </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
-          Start Date: <strong>{new Date(campaign.startDate).toLocaleDateString()}</strong>
-        </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
-          End Date: <strong>{new Date(campaign.endDate).toLocaleDateString()}</strong>
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ fontWeight: 500, color: campaign.isActive ? "#388e3c" : "#d32f2f" }}
-        >
-          Status: <strong>{campaign.isActive ? "Active" : "Inactive"}</strong>
-        </Typography>
-      </CardContent>
-    </Card>
-  );
+          <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
+            Target Amount: <strong>${campaign.targetAmount.toLocaleString()}</strong>
+          </Typography>
+          <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
+            Raised Amount: <strong>${campaign.raisedAmount.toLocaleString()}</strong>
+          </Typography>
+          <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
+            Start Date: <strong>{new Date(campaign.startDate).toLocaleDateString()}</strong>
+          </Typography>
+          <Typography variant="body2" sx={{ fontWeight: 500, color: "#555" }}>
+            End Date: <strong>{new Date(campaign.endDate).toLocaleDateString()}</strong>
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 500, color: campaign.isActive ? "#388e3c" : "#d32f2f" }}
+          >
+            Status: <strong>{campaign.isActive ? "Active" : "Inactive"}</strong>
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
 };
 
 export default Donate;
