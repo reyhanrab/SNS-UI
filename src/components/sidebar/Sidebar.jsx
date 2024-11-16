@@ -21,6 +21,7 @@ import {
   Feedback,
   ExpandLess,
   ExpandMore,
+  VolunteerActivism,
 } from "@mui/icons-material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LOGOUT } from "../../actions/general/ActionCreators";
@@ -42,8 +43,8 @@ const Sidebar = () => {
   const menuItems = useMemo(
     () => [
       { path: "/dashboard", label: "Dashboard", icon: <Home /> },
-      { path: "/dashboard/campaigns", label: "Campaigns", icon: <Analytics /> },
-      { path: "/dashboard/donations", label: "Donations", icon: <Settings /> },
+      { path: "/dashboard/campaign", label: "Campaigns", icon: <Analytics /> },
+      { path: "/dashboard/donation", label: "Donations", icon: <VolunteerActivism /> },
       // { path: "/dashboard/donate", label: "Donate", icon: <Settings /> },
     ],
     []
@@ -241,7 +242,7 @@ const Sidebar = () => {
         }}
       >
         <MenuItem onClick={handleCloseMenu} sx={{ "&:focus": { outline: "none" } }}>
-          <Link to="/my-account" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to="/dashboard/my-account" style={{ textDecoration: "none", color: "inherit" }}>
             My Account
           </Link>
         </MenuItem>

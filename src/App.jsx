@@ -13,6 +13,7 @@ import Layout from "./components/sidebar/Layout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PageNotFound from "./PageNotFound";
 import Donate from "./components/donate/Donate";
+import MyAccount from "./components/myAccount/myAccount";
 
 function App() {
   return (
@@ -34,9 +35,13 @@ function App() {
               <Route path="/dashboard" element={<Layout />}>
                 <Route exact index element={<ProtectedRoutes Component={Dashboard} />} />{" "}
                 {/* Default Dashboard */}
-                <Route exact path="campaigns" element={<ProtectedRoutes Component={Campaigns} />}
+                <Route
+                  exact
+                  path="campaign"
+                  element={<ProtectedRoutes Component={Campaigns} />}
                 />{" "}
-              <Route exact path="donate" element={<ProtectedRoutes Component={Donate} />} />{" "}
+                <Route path="donate/:id" element={<ProtectedRoutes Component={Donate} />} />
+                <Route path="my-account" element={<ProtectedRoutes Component={MyAccount} />} />
                 {/* New Campaigns Page */}
                 <Route path="*" element={<PageNotFound />} />
               </Route>
