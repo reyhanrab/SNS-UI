@@ -1,24 +1,49 @@
 import ApiService, { handleNetworkError, dispatchAction } from "../../middleware/ApiService";
-import { CAMPAIGNSDATA, CAMPAIGNMETADATA } from "./Actions";
+import { CAMPAIGNSDATA, CAMPAIGNMETADATA, CAMPAIGNSPAGINATED, CAMPAIGNBYID } from "./Actions";
 
-export const GETCAMPAIGNSDATA =
+export const GETCAMPAIGNSDATA = () => async (dispatch) => {
+  try {
+    const apiResponse = await ApiService.get(`/campaign`);
+
+    if (apiResponse) {
+      dispatchAction(dispatch, CAMPAIGNSDATA, apiResponse.data.results);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+
+export const GETCAMPAIGNBYID = (id) => async (dispatch) => {
+  try {
+    const apiResponse = await ApiService.get(`/campaign/${id}`);
+
+    if (apiResponse) {
+      dispatchAction(dispatch, CAMPAIGNBYID, apiResponse.data.results);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+
+export const GETPAGINATEDCAMPAIGNS =
   (page, limit, filter = {}) =>
   async (dispatch) => {
     try {
       // Convert filter object to URL query parameters
       const filterQuery = new URLSearchParams(filter).toString();
       const apiResponse = await ApiService.get(
-        `/campaign?page=${page}&limit=${limit}&${filterQuery}`
+        `/campaign/paginated?page=${page}&limit=${limit}&${filterQuery}`
       );
 
       if (apiResponse) {
-        dispatchAction(dispatch, CAMPAIGNSDATA, apiResponse.data.results);
+        dispatchAction(dispatch, CAMPAIGNSPAGINATED, apiResponse.data.results);
         dispatchAction(dispatch, CAMPAIGNMETADATA, apiResponse.data.metadata);
       }
     } catch (error) {
       handleNetworkError(error);
     }
   };
+
 export const ADDCAMPAIGNSDATA = (obj, handleCreateModal) => async (dispatch) => {
   try {
     const apiResponse = await ApiService.post(`/campaign`, obj);
@@ -57,7 +82,9 @@ export const DELETECAMPAIGNSDATA = (id) => async (dispatch) => {
 
 export const REGISTERFORCAMPAGIN = (id, userId, handleDialog) => async (dispatch) => {
   try {
-    const apiResponse = await ApiService.post(`/campaign/${id}/registration`, {volunteer: userId});
+    const apiResponse = await ApiService.post(`/campaign/${id}/registration`, {
+      volunteer: userId,
+    });
     if (apiResponse) {
       dispatch(GETCAMPAIGNSDATA());
       handleDialog();

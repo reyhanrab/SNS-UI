@@ -65,9 +65,7 @@ function Campaigns() {
   };
 
   const handleDonation = (obj) => {
-    navigate("/dashboard/donate", {
-      state: obj,
-    });
+    navigate(`/dashboard/donate/${obj._id}`);
   };
 
   // Handling tab change
@@ -114,6 +112,8 @@ function Campaigns() {
             handleDetailsModal={handleDetailsModal}
           />
         </TabPanel>
+        {/* Registrations Component */}
+        {localStorage.getItem("role") === "volunteer" || localStorage.getItem("role") === "admin" && <MemoizedRegistrations />}
       </Box>
 
       {/* Create Campaign Modal */}
@@ -145,9 +145,6 @@ function Campaigns() {
           onDonate={handleDonation}
         />
       )}
-
-      {/* Registrations Component */}
-      {localStorage.getItem("role") === "volunteer" && <MemoizedRegistrations />}
     </>
   );
 }

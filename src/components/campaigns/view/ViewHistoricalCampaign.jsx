@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
-import { GETCAMPAIGNSDATA } from "../../../actions/campaigns/ActionCreators";
+import { GETPAGINATEDCAMPAIGNS } from "../../../actions/campaigns/ActionCreators";
 import { formatDate } from "../../../common/utils";
 
 // Define headers for the table
@@ -47,7 +47,7 @@ const ViewHistoricalCampaign = ({ handleUpdateModal }) => {
     zIndex: 1,
   }));
 
-  const campaignsData = useSelector((state) => state.CampaignsReducer.campaignsData);
+  const paginatedCampaignData = useSelector((state) => state.CampaignsReducer.paginatedCampaignData);
   const metadata = useSelector((state) => state.CampaignsReducer.metadata);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -61,7 +61,7 @@ const ViewHistoricalCampaign = ({ handleUpdateModal }) => {
   useEffect(() => {
     // Example filter for fetching inactive campaigns
     const filter = { isActive: false };
-    dispatch(GETCAMPAIGNSDATA(currentPage, limit, filter));
+    dispatch(GETPAGINATEDCAMPAIGNS(currentPage, limit, filter));
   }, [currentPage, dispatch, limit]);
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const ViewHistoricalCampaign = ({ handleUpdateModal }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {campaignsData.map((row, index) => (
+            {paginatedCampaignData.map((row, index) => (
               <TableRow key={index}>
                 {headers.map((header) => (
                   <TableCell
