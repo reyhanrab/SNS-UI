@@ -14,6 +14,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import PageNotFound from "./PageNotFound";
 import Donate from "./components/donate/Donate";
 import MyAccount from "./components/myAccount/myAccount";
+import Donations from "./components/donate/donations/Donations";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
                   path="campaign"
                   element={<ProtectedRoutes Component={Campaigns} />}
                 />{" "}
+                <Route exact path="donation" element={<ProtectedRoutes Component={Donations} />} />{" "}
                 <Route path="donate/:id" element={<ProtectedRoutes Component={Donate} />} />
                 <Route path="my-account" element={<ProtectedRoutes Component={MyAccount} />} />
                 {/* New Campaigns Page */}
