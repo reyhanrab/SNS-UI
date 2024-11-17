@@ -18,6 +18,7 @@ export const GETCAMPAIGNBYID = (id) => async (dispatch) => {
     const apiResponse = await ApiService.get(`/campaign/${id}`);
 
     if (apiResponse) {
+      console.log("apiResponse",apiResponse);
       dispatchAction(dispatch, CAMPAIGNBYID, apiResponse.data.results);
     }
   } catch (error) {

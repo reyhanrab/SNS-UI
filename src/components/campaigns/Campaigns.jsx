@@ -12,7 +12,7 @@ import UpdateCampaign from "./update/UpdateCampaign";
 import ViewHistoricalCampaign from "./view/ViewHistoricalCampaign";
 import Registrations from "../Registrations/Registrations";
 import { useNavigate } from "react-router-dom";
-import CampaignDetails from "./details/CampaignDetails";
+import Details from "./details/Details";
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -137,7 +137,7 @@ function Campaigns() {
 
       {/* Campaign Details Modal */}
       {detailsModal && (
-        <CampaignDetails
+        <Details
           campaignData={selectedRow}
           open={detailsModal}
           onClose={handleDetailsModal}

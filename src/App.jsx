@@ -18,43 +18,36 @@ import Donations from "./components/donate/donations/Donations";
 
 function App() {
   return (
-    <AppTheme>
-      <CssBaseline enableColorScheme />
+    <Provider store={Store}>
       <AppTheme>
         <CssBaseline enableColorScheme />
-        <Provider store={Store}>
-          <Router>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<Navigate to="/login" />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
 
-              {/* Authenticated Routes with Sidebar */}
-              <Route path="/dashboard" element={<Layout />}>
-                <Route exact index element={<ProtectedRoutes Component={Dashboard} />} />{" "}
-                {/* Default Dashboard */}
-                <Route
-                  exact
-                  path="campaign"
-                  element={<ProtectedRoutes Component={Campaigns} />}
-                />{" "}
-                <Route exact path="donation" element={<ProtectedRoutes Component={Donations} />} />{" "}
-                <Route path="donate/:id" element={<ProtectedRoutes Component={Donate} />} />
-                <Route path="my-account" element={<ProtectedRoutes Component={MyAccount} />} />
-                {/* New Campaigns Page */}
-                <Route path="*" element={<PageNotFound />} />
-              </Route>
+        <Router>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
-              {/* Redirect unknown routes */}
+            {/* Authenticated Routes with Sidebar */}
+            <Route path="/dashboard" element={<Layout />}>
+              <Route exact index element={<ProtectedRoutes Component={Dashboard} />} />
+              <Route exact path="campaign" element={<ProtectedRoutes Component={Campaigns} />} />
+              <Route exact path="donation" element={<ProtectedRoutes Component={Donations} />} />
+              <Route path="donate/:id" element={<ProtectedRoutes Component={Donate} />} />
+              <Route path="my-account" element={<ProtectedRoutes Component={MyAccount} />} />
+              {/* New Campaigns Page */}
               <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </Router>
-        </Provider>
+            </Route>
+
+            {/* Redirect unknown routes */}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Router>
       </AppTheme>
-    </AppTheme>
+    </Provider>
   );
 }
 

@@ -9,7 +9,7 @@ const initialState = {
   campaignsData: [],
   paginatedCampaignData: [],
   metadata: {},
-  campaginById: {},
+  campaignById: {},
 };
 
 const CampaignsReducer = (state = initialState, action = {}) => {
@@ -28,8 +28,9 @@ const CampaignsReducer = (state = initialState, action = {}) => {
         paginatedCampaignData: action.payload.value,
       });
     case CAMPAIGN_BY_ID:
+      console.log("action.payload.value,",action.payload.value)
       return Object.assign({}, state, {
-        campaginById: action.payload.value,
+        campaignById: action.payload.value,
       });
     default:
       return state;

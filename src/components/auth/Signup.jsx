@@ -1,7 +1,6 @@
 import React from "react";
 import {
   CssBaseline,
-
   FormLabel,
   FormControl,
   Stack,
@@ -14,6 +13,7 @@ import {
   Button,
   Alert,
   Card as MuiCard,
+  CircularProgress,
 } from "@mui/material";
 
 import { SIGNUP } from "../../actions/general/ActionCreators";
@@ -71,6 +71,7 @@ const SignUp = () => {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -109,7 +110,10 @@ const SignUp = () => {
         delete obj[key];
       }
     }
-    dispatch(SIGNUP(obj, formRef, navigate));
+    setLoading(true);
+    if(isValid){
+      dispatch(SIGNUP(obj, formRef, navigate, setLoading));
+    }
   };
 
   return (
@@ -149,7 +153,6 @@ const SignUp = () => {
           <Box
             component="form"
             onSubmit={handleSubmit}
-            noValidate
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -302,8 +305,14 @@ const SignUp = () => {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
-            <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
-              Sign up
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              onClick={validateInputs}
+              disabled={loading} // Disable the button when loading
+            >
+              {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Sign up"}
             </Button>
             <Typography sx={{ textAlign: "center" }}>
               Already have an account?{" "}
