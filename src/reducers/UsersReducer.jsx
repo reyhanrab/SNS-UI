@@ -1,8 +1,10 @@
-import { SAVE_USER_DATA, SAVE_USER_DATA_BYID } from "../actions/users/Types";
+import { SAVE_USER_DATA, SAVE_USER_DATA_BYID, DONATIONS_BY_ID, DONATIONSBYID_METADATA } from "../actions/users/Types";
 
 const initialState = {
   userData: [],
-  userDataById: null,
+  userDataById: {},
+  donationsById: [],
+  donationsByIdMetadata: {},
 };
 
 const UsersReducer = (state = initialState, action = {}) => {
@@ -14,6 +16,14 @@ const UsersReducer = (state = initialState, action = {}) => {
     case SAVE_USER_DATA_BYID:
       return Object.assign({}, state, {
         userDataById: action.payload.value,
+      });
+    case DONATIONS_BY_ID:
+      return Object.assign({}, state, {
+        donationsById: action.payload.value,
+      });
+    case DONATIONSBYID_METADATA:
+      return Object.assign({}, state, {
+        donationsByIdMetadata: action.payload.value,
       });
     default:
       return state;

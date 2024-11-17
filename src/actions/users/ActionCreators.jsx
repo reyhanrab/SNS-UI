@@ -1,5 +1,5 @@
 import ApiService, { handleNetworkError, dispatchAction } from "../../middleware/ApiService";
-import { SAVEUSERDATA, SAVEUSERDATABYID } from "./Actions";
+import { SAVEUSERDATA, SAVEUSERDATABYID, DONATIONSBYID, DONATIONSBYIDMETADATA } from "./Actions";
 
 export const GETUSERDATA = () => async (dispatch) => {
   try {
@@ -17,6 +17,19 @@ export const GETUSERDATABYID = (id) => async (dispatch) => {
     const apiResponse = await ApiService.get(`/user/${id}`);
     if (apiResponse) {
       dispatchAction(dispatch, SAVEUSERDATABYID, apiResponse.data.results);
+    }
+  } catch (error) {
+    handleNetworkError(error);
+  }
+};
+export const GETDONATIONSBYID = (id, page, limit) => async (dispatch) => {
+  try {
+    const apiResponse = await ApiService.get(`/user/${id}/donations?page=${page}&limit=${limit}`);
+
+    if (apiResponse) {
+      // Dispatch the donations data and metadata
+      dispatchAction(dispatch, DONATIONSBYID, apiResponse.data.results);
+      dispatchAction(dispatch, DONATIONSBYIDMETADATA, apiResponse.data.metadata);
     }
   } catch (error) {
     handleNetworkError(error);

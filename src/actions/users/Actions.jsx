@@ -1,4 +1,4 @@
-import { SAVE_USER_DATA, SAVE_USER_DATA_BYID } from "./Types";
+import { SAVE_USER_DATA, SAVE_USER_DATA_BYID, DONATIONS_BY_ID, DONATIONSBYID_METADATA } from "./Types";
 
 export const SAVEUSERDATA = (value) => {
   return {
@@ -14,3 +14,16 @@ export const SAVEUSERDATABYID = (value) => {
   };
 };
 
+export const DONATIONSBYID = (value) => {
+  return {
+    type: DONATIONS_BY_ID,
+    payload: { value },
+  };
+};
+
+export const DONATIONSBYIDMETADATA = (value) => {
+  return {
+    type: DONATIONSBYID_METADATA,
+    payload: { value },
+  };
+};
