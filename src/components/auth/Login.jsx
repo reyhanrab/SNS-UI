@@ -3,27 +3,19 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
 import {
-  CssBaseline,
-  FormControlLabel,
-  Divider,
   FormLabel,
   FormControl,
   Stack,
   Box,
   Typography,
   TextField,
-  Grid,
   Link as MuiLink,
-  MenuItem,
   Button,
-  Alert,
-  Checkbox,
   Card as MuiCard,
+  CircularProgress,
 } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
-import { GoogleIcon, FacebookIcon } from "./CustomIcons";
-import AppTheme from "./theme/AppTheme";
 import ColorModeSelect from "./theme/ColorModeSelect";
 
 import ForgotPassword from "./ForgotPassword";
@@ -75,6 +67,7 @@ const Login = () => {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -88,13 +81,17 @@ const Login = () => {
     e.preventDefault();
     const data = new FormData(e.target);
     const obj = Object.fromEntries(data);
+
+    // Trim values and validate inputs
     for (const key in obj) {
       let trimmedValue = obj[key].trim();
       if (trimmedValue.length === 0) {
         delete obj[key];
       }
     }
-    dispatch(LOGIN(obj, formRef, navigate));
+    // Set loading to true while awaiting the response
+    setLoading(true);
+    dispatch(LOGIN(obj, formRef, navigate, setLoading));
   };
 
   const validateInputs = () => {
@@ -155,7 +152,6 @@ const Login = () => {
         <Box
           component="form"
           onSubmit={(e) => handleSubmit(e)}
-          noValidate
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -214,8 +210,14 @@ const Login = () => {
               label="Remember me"
             /> */}
           <ForgotPassword open={open} handleClose={handleClose} />
-          <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
-            Sign in
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            onClick={validateInputs}
+            disabled={loading} // Disable the button when loading
+          >
+            {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Sign in"}
           </Button>
           <Typography sx={{ textAlign: "center" }}>
             Don&apos;t have an account?{" "}

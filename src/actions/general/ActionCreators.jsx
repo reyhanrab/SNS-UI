@@ -1,9 +1,11 @@
 import ApiService, { dispatchApiMessage, handleNetworkError } from "../../middleware/ApiService";
 import { ERRORMSG, SUCCESSMSG } from "./Actions";
 
-export const SIGNUP = (obj, formRef, navigate) => async (dispatch) => {
+export const SIGNUP = (obj, formRef, navigate, setLoading) => async (dispatch) => {
   try {
     const apiResponse = await ApiService.post(`/auth/signup`, { data: obj });
+    // Update loading state after API response
+    setLoading(false);
     if (apiResponse.status == 200) {
       formRef.current.reset();
       dispatchApiMessage(dispatch, SUCCESSMSG, apiResponse.data.message);
@@ -14,14 +16,19 @@ export const SIGNUP = (obj, formRef, navigate) => async (dispatch) => {
       dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.message);
     }
   } catch (error) {
+    setLoading(false); // Ensure loading is turned off on error
     handleNetworkError(error);
   }
 };
 
-export const LOGIN = (obj, formRef, navigate) => async () => {
+export const LOGIN = (obj, formRef, navigate, setLoading) => async (dispatch) => {
   try {
     const apiResponse = await ApiService.patch(`/auth/login`, obj);
-    if (apiResponse.status == 200) {
+
+    // Update loading state after API response
+    setLoading(false);
+
+    if (apiResponse.status === 200) {
       formRef.current.reset();
       navigate("/dashboard");
       localStorage.setItem("email", apiResponse.data.results.email);
@@ -35,6 +42,7 @@ export const LOGIN = (obj, formRef, navigate) => async () => {
       dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.results.message);
     }
   } catch (error) {
+    setLoading(false); // Ensure loading is turned off on error
     handleNetworkError(error);
   }
 };
