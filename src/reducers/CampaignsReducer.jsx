@@ -28,7 +28,6 @@ const CampaignsReducer = (state = initialState, action = {}) => {
         paginatedCampaignData: action.payload.value,
       });
     case CAMPAIGN_BY_ID:
-      console.log("action.payload.value,",action.payload.value)
       return Object.assign({}, state, {
         campaignById: action.payload.value,
       });

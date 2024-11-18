@@ -21,6 +21,14 @@ import "jspdf-autotable";
 const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
   const dispatch = useDispatch();
 
+  const registrationsData = useSelector((state) => state.RegistrationsReducer.registrationsData);
+
+  const getRegisteredCampaignIds = (registrations) => {
+    return registrations.map((reg) => reg.campaign._id);
+  };
+
+  const registeredCampaignIds = getRegisteredCampaignIds(registrationsData);
+
   const campaignById = useSelector((state) => state.CampaignsReducer.campaignById);
 
   const [activeTab, setActiveTab] = useState(0);
@@ -159,6 +167,11 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
             </Typography>
             <CampaignReport />
           </>
+        )}
+        {registeredCampaignIds.includes(campaignData._id) && (
+          <Typography variant="body2" color="primary">
+            You have already registered for the campaign, We look forward to seeing you
+          </Typography>
         )}
       </DialogContent>
 
