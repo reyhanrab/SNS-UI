@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -14,8 +14,6 @@ import {
   tableCellClasses,
   styled,
   Pagination,
-  CardActions,
-  Button,
 } from "@mui/material";
 import {
   XAxis,
@@ -29,7 +27,11 @@ import {
 } from "recharts";
 import { useSelector } from "react-redux";
 import { formatDateTime } from "../../../common/utils";
-import { Info as InfoIcon, People as PeopleIcon, AttachMoney as MoneyIcon } from '@mui/icons-material'; 
+import {
+  Info as InfoIcon,
+  People as PeopleIcon,
+  AttachMoney as MoneyIcon,
+} from "@mui/icons-material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -104,6 +106,7 @@ const Reports = () => {
   // Format dates
   const startDateFormatted = new Date(startDate).toLocaleDateString();
   const endDateFormatted = new Date(endDate).toLocaleDateString();
+
   return (
     <div>
       <Typography variant="h4" gutterBottom>
@@ -111,73 +114,82 @@ const Reports = () => {
       </Typography>
 
       <Grid container spacing={3}>
-      {/* Campaign Overview Card */}
-      <Grid item xs={12}>
-      <Card sx={{ borderRadius: 2, backgroundColor: '#f4f7fa', padding: 3 }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
-              <InfoIcon sx={{ marginRight: 1, color: '#3f51b5' }} />
-              Campaign Overview
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-              <strong>Description:</strong> {description}
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-              <strong>Target Amount:</strong> ${targetAmount}
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-              <strong>Raised Amount:</strong> ${raisedAmount}
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-              <strong>Total Donations:</strong> ${totalDonations}
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: 2 }}>
-              <strong>Campaign Duration:</strong> {startDateFormatted} to {endDateFormatted}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+        {/* Campaign Overview Card */}
+        <Grid item xs={12}>
+          <Card sx={{ borderRadius: 2, backgroundColor: "#f4f7fa", padding: 3 }}>
+            <CardContent>
+              <Typography
+                variant="h6"
+                sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}
+              >
+                <InfoIcon sx={{ marginRight: 1, color: "#3f51b5" }} />
+                Campaign Overview
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                <strong>Description:</strong> {description}
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                <strong>Target Amount:</strong> ${targetAmount}
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                <strong>Raised Amount:</strong> ${raisedAmount}
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                <strong>Total Donations:</strong> ${totalDonations}
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 2 }}>
+                <strong>Campaign Duration:</strong> {startDateFormatted} to {endDateFormatted}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
 
-      {/* Volunteer Statistics Card */}
-      <Grid item xs={12}>
-      <Card sx={{ borderRadius: 2, backgroundColor: '#f4f7fa', padding: 3 }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
-              <PeopleIcon sx={{ marginRight: 1, color: '#3f51b5' }} />
-              Volunteer Statistics
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-              <strong>Registered Volunteers:</strong> {registeredVolunteers}
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-              <strong>Checked-in Volunteers:</strong> {checkedInVolunteers}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+        {/* Volunteer Statistics Card */}
+        <Grid item xs={12}>
+          <Card sx={{ borderRadius: 2, backgroundColor: "#f4f7fa", padding: 3 }}>
+            <CardContent>
+              <Typography
+                variant="h6"
+                sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}
+              >
+                <PeopleIcon sx={{ marginRight: 1, color: "#3f51b5" }} />
+                Volunteer Statistics
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                <strong>Registered Volunteers:</strong> {registeredVolunteers}
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                <strong>Checked-in Volunteers:</strong> {checkedInVolunteers}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
 
         {/* Donations Cumulative Trend Chart */}
-        <Grid item xs={12} sm={6} md={8}>
-        <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', color: '#3f51b5' }}>
-              <MoneyIcon sx={{ marginRight: 1 }} />
-              Cumulative Donation Trend
-            </Typography>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={cumulativeData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis ticks={tickValues} />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="cumulativeAmount" fill="#82ca9d" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+        <Grid item xs={12}>
+          <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
+            <CardContent>
+              <Typography
+                variant="h6"
+                sx={{ display: "flex", alignItems: "center", color: "#3f51b5" }}
+              >
+                <MoneyIcon sx={{ marginRight: 1 }} />
+                Cumulative Donation Trend
+              </Typography>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={cumulativeData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis ticks={tickValues} />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="cumulativeAmount" fill="#82ca9d" />
+                  </BarChart>
+                </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
 
       {/* Volunteer Table */}
       <VolunteerRegistrations registrations={registrations} />

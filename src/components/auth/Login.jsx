@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 
 import {
@@ -13,6 +13,7 @@ import {
   Button,
   Card as MuiCard,
   CircularProgress,
+  Alert,
 } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
@@ -61,6 +62,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const formRef = React.useRef();
   const navigate = useNavigate();
+
+  const errorMsg = useSelector((state) => state.GeneralReducer.errorMsg);
 
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
@@ -229,6 +232,7 @@ const Login = () => {
               </Link>
             </span>
           </Typography>
+          {errorMsg.length > 0 ? <Alert severity="error">{errorMsg}</Alert> : ""}{" "}
         </Box>
       </Card>
     </SignInContainer>

@@ -38,10 +38,9 @@ export const LOGIN = (obj, formRef, navigate, setLoading) => async (dispatch) =>
         `${apiResponse.data.results.firstname} ${apiResponse.data.results.lastname}`
       );
       localStorage.setItem("role", apiResponse.data.results.role);
-    } else {
-      dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.results.message);
     }
   } catch (error) {
+    dispatchApiMessage(dispatch, ERRORMSG, error.response.data.message);
     setLoading(false); // Ensure loading is turned off on error
     handleNetworkError(error);
   }

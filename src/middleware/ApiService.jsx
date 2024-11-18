@@ -42,13 +42,13 @@ ApiService.interceptors.response.use(
     return response;
   },
   function (error) {
-    if(error.response.status === 400) {
-      console.log(error.response.data.message)
+    if (error.response.status === 400) {
+      console.log(error.response.data.message);
     }
     if (error.status === 401) {
       localStorage.clear();
       setTimeout(() => {
-        window.location.href="/login"
+        window.location.href = "/login";
       }, 1000);
     }
     // Any status codes that falls outside the range of 2xx cause this function to trigger

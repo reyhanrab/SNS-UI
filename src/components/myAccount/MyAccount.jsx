@@ -100,7 +100,7 @@ function MyAccount() {
     dispatch(
       CHANGEPASSWORD(
         localStorage.getItem("userId"),
-        { password: newPassword },
+        { password: newPassword, currentPassword: currentPassword },
         handleCloseModal,
         (success) => {
           if (success) toast.success("Password changed successfully!");
