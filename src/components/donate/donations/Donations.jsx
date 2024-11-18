@@ -20,9 +20,7 @@ function Donations() {
       <Box sx={{ width: "100%" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
           <Typography variant="h6">My Donations</Typography>
-          <Button variant="contained" color="secondary">
-            Create
-          </Button>
+          <Box></Box>
         </Toolbar>
         <MemoizedViewDonations handleDetailsModal={handleDetailsModal} />
       </Box>

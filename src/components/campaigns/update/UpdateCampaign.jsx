@@ -61,9 +61,9 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
           Update Campaign
         </Typography>
       </DialogTitle>
-
+  
       <Divider sx={{ my: 1 }} />
-
+  
       <DialogContent>
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={3}>
@@ -79,10 +79,11 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
+                  disabled={!campaignData.isActive}
                 />
               </FormControl>
             </Grid>
-
+  
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <FormLabel htmlFor="description" sx={{ mb: 1, fontWeight: 'bold' }}>
@@ -104,6 +105,7 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                       overflow: 'auto',
                     },
                   }}
+                  disabled={!campaignData.isActive}
                 />
                 <Typography
                   variant="caption"
@@ -114,7 +116,7 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                 </Typography>
               </FormControl>
             </Grid>
-
+  
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <FormLabel htmlFor="targetAmount" sx={{ mb: 1, fontWeight: 'bold' }}>
@@ -128,10 +130,11 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
+                  disabled={!campaignData.isActive}
                 />
               </FormControl>
             </Grid>
-
+  
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <FormLabel htmlFor="raisedAmount" sx={{ mb: 1, fontWeight: 'bold' }}>
@@ -145,10 +148,11 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
+                  disabled={!campaignData.isActive}
                 />
               </FormControl>
             </Grid>
-
+  
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <FormLabel htmlFor="startDate" sx={{ mb: 1, fontWeight: 'bold' }}>
@@ -162,10 +166,11 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   InputLabelProps={{ shrink: true }}
                   variant="outlined"
+                  disabled={!campaignData.isActive}
                 />
               </FormControl>
             </Grid>
-
+  
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <FormLabel htmlFor="endDate" sx={{ mb: 1, fontWeight: 'bold' }}>
@@ -179,10 +184,11 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   InputLabelProps={{ shrink: true }}
                   variant="outlined"
+                  disabled={!campaignData.isActive}
                 />
               </FormControl>
             </Grid>
-
+  
             <Grid item xs={12}>
               <FormControlLabel
                 control={
@@ -198,14 +204,14 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
           </Grid>
         </Box>
       </DialogContent>
-
+  
       <Divider sx={{ my: 1 }} />
-
+  
       <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           Cancel
         </Button>
-        <Button onClick={()=>handleUpdate()} variant="contained" color="primary">
+        <Button onClick={() => handleUpdate()} variant="contained" color="primary" disabled={!campaign.isActive}>
           Update
         </Button>
       </DialogActions>

@@ -150,6 +150,11 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
               onRegister={onRegister}
               onDonate={onDonate}
             />
+            {registeredCampaignIds.includes(campaignData._id) && (
+              <Typography variant="body2" color="primary">
+                You have already registered for the campaign, We look forward to seeing you
+              </Typography>
+            )}
           </>
         )}
 
@@ -168,11 +173,6 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
             <CampaignReport />
           </>
         )}
-        {registeredCampaignIds.includes(campaignData._id) && (
-          <Typography variant="body2" color="primary">
-            You have already registered for the campaign, We look forward to seeing you
-          </Typography>
-        )}
       </DialogContent>
 
       <Divider />
@@ -184,7 +184,8 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
         </Button>
         {(localStorage.getItem("role") === "admin" ||
           localStorage.getItem("role") === "volunteer") &&
-          !registeredCampaignIds.includes(campaignData._id) && (
+          (activeTab === 0 &&
+          !registeredCampaignIds.includes(campaignData._id)) && (
             <Button
               onClick={() => onRegister(campaignData._id)}
               variant="contained"
@@ -194,12 +195,12 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
             </Button>
           )}
         {(localStorage.getItem("role") === "admin" || localStorage.getItem("role") === "donor") &&
-          !registeredCampaignIds.includes(campaignData) && (
+          (!registeredCampaignIds.includes(campaignData) && activeTab === 0) && (
             <Button onClick={() => onDonate(campaignData)} variant="contained" color="primary">
               Donate
             </Button>
           )}
-        {activeTab === 1 && (
+        {(activeTab === 1 && localStorage.getItem("role") === "admin") && (
           <Button variant="contained" color="primary" onClick={() => generateReportPDF()}>
             Download PDF
           </Button>
