@@ -169,6 +169,23 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
         <Button onClick={onClose} variant="outlined" color="secondary">
           Close
         </Button>
+        {(localStorage.getItem("role") === "admin" ||
+          localStorage.getItem("role") === "volunteer") &&
+          !registeredCampaignIds.includes(campaignData._id) && (
+            <Button
+              onClick={() => onRegister(campaignData._id)}
+              variant="contained"
+              color="primary"
+            >
+              Register
+            </Button>
+          )}
+        {(localStorage.getItem("role") === "admin" || localStorage.getItem("role") === "donor") &&
+          !registeredCampaignIds.includes(campaignData) && (
+            <Button onClick={() => onDonate(campaignData)} variant="contained" color="primary">
+              Donate
+            </Button>
+          )}
         {activeTab === 1 && (
           <Button variant="contained" color="primary" onClick={() => generateReportPDF()}>
             Download PDF
