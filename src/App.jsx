@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import Campaigns from "./components/Campaigns/Campaigns";
+// import Campaigns from "./components/Campaigns/Campaigns";
+import Campaigns from "./components/Campaigns/Campaigns2";
+
 import SignUp from "./components/auth/Signup";
 import Login from "./components/auth/Login";
 import ForgotPassword from "./components/auth/ForgotPassword";
