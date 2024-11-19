@@ -13,7 +13,9 @@ import Layout from "./components/sidebar/Layout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PageNotFound from "./PageNotFound";
 import Donate from "./components/donate/Donate";
-import MyAccount from "./components/myAccount/myAccount";
+// import MyAccount from "./components/myAccount/myAccount";
+import MyAccount from "./components/myAccount/MyAccount2";
+
 import Donations from "./components/donate/donations/Donations";
 
 function App() {
