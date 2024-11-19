@@ -31,7 +31,9 @@ import {
 // import ViewCampaign from "./view/ViewCampaign";
 import ViewCampaign from "./view/ViewCampaign2";
 
-import CreateCampaign from "./create/CreateCampaign";
+// import CreateCampaign from "./create/CreateCampaign";
+import CreateCampaign from "./create/CreateCampaign2";
+
 // import UpdateCampaign from "./update/UpdateCampaign";
 import UpdateCampaign from "./update/UpdateCampaign2";
 
