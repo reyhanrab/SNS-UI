@@ -90,14 +90,27 @@ function Dashboard() {
   }, [dispatch]);
 
   useEffect(() => {
+    let timeout;
+  
+    if (isLoading) {
+      timeout = setTimeout(() => {
+        setIsLoading(false); // Stop loading if no data is received in 10 seconds
+      }, 10000); // 10 seconds timeout
+    }
+  
     if (
       summaryData &&
       donationTrends.length &&
       volunteerTrends.length &&
       campaignStatus.length
     ) {
-      setIsLoading(false);
+      setIsLoading(false); // Stop loading if data is available
+      clearTimeout(timeout); // Clear timeout if data loads successfully
     }
+  
+    return () => {
+      if (timeout) clearTimeout(timeout); // Cleanup timeout on unmount
+    };
   }, [summaryData, donationTrends, volunteerTrends, campaignStatus]);
 
   const StatCard = ({ icon: Icon, label, value, subValue, color = "primary" }) => (
