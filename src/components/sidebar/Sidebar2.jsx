@@ -47,6 +47,7 @@ const Sidebar = () => {
     { path: "/dashboard", label: "Dashboard", icon: <Home /> },
     { path: "/dashboard/campaign", label: "Campaigns", icon: <Analytics /> },
     { path: "/dashboard/donation", label: "Donations", icon: <Donations /> },
+    { path: "/dashboard/about", label: "About", icon: <Info /> },
   ];
 
   const handleDrawerToggle = () => {
@@ -159,68 +160,6 @@ const Sidebar = () => {
             </ListItemButton>
           ))}
 
-          {/* Settings Section */}
-          <ListItemButton
-            onClick={() => setExpandSettings(!expandSettings)}
-            sx={{
-              minHeight: 48,
-              borderRadius: 1,
-              mb: 0.5,
-              mt: 2,
-              justifyContent: isOpen ? "initial" : "center",
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: isOpen ? 2 : "auto",
-                justifyContent: "center",
-              }}
-            >
-              <Settings />
-            </ListItemIcon>
-            {isOpen && (
-              <>
-                <ListItemText primary="Settings" />
-                {expandSettings ? <ChevronLeft /> : <ChevronRight />}
-              </>
-            )}
-          </ListItemButton>
-
-          <Collapse in={expandSettings && isOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton
-                component={Link}
-                to="/about"
-                sx={{
-                  pl: 4,
-                  minHeight: 40,
-                  borderRadius: 1,
-                  mb: 0.5,
-                }}
-              >
-                <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
-                  <Info />
-                </ListItemIcon>
-                <ListItemText primary="About" />
-              </ListItemButton>
-              <ListItemButton
-                component={Link}
-                to="/feedback"
-                sx={{
-                  pl: 4,
-                  minHeight: 40,
-                  borderRadius: 1,
-                  mb: 0.5,
-                }}
-              >
-                <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
-                  <Feedback />
-                </ListItemIcon>
-                <ListItemText primary="Feedback" />
-              </ListItemButton>
-            </List>
-          </Collapse>
         </List>
 
         <Box sx={{ flexGrow: 1 }} />

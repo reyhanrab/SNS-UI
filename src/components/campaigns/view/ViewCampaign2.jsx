@@ -102,7 +102,17 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
   const handleDeleteCampaign = async (id) => {
     handleMenuClose();
     try {
-      await dispatch(DELETECAMPAIGNSDATA(id));
+      if (paginatedCampaignData.length === 1) {
+        const page = currentPage !== 1 ? currentPage - 1 : currentPage
+        await dispatch(
+          DELETECAMPAIGNSDATA(id, page, limit, {
+            isActive: true,
+          })
+        );
+          setCurrentPage(page);
+      } else {
+        await dispatch(DELETECAMPAIGNSDATA(id, currentPage, limit, { isActive: true }));
+      }
     } catch (error) {
       setError("Failed to delete campaign");
     }
@@ -115,24 +125,9 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
 
     if (!isActive) return <Chip label="Inactive" color="error" size="small" />;
     if (now < start)
-      return (
-        <Chip
-          label="Upcoming"
-          color="warning"
-          size="small"
-          icon={<CampaignIcon />}
-        />
-      );
-    if (now > end)
-      return <Chip label="Completed" color="success" size="small" />;
-    return (
-      <Chip
-        label="Active"
-        color="primary"
-        size="small"
-        icon={<CheckIcon />}
-      />
-    );
+      return <Chip label="Upcoming" color="warning" size="small" icon={<CampaignIcon />} />;
+    if (now > end) return <Chip label="Completed" color="success" size="small" />;
+    return <Chip label="Active" color="primary" size="small" icon={<CheckIcon />} />;
   };
 
   const getProgressValue = (raised, target) => {
@@ -140,7 +135,11 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
   };
 
   if (error) {
-    return <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>;
+    return (
+      <Alert severity="error" sx={{ mt: 2 }}>
+        {error}
+      </Alert>
+    );
   }
 
   return (
@@ -183,18 +182,20 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
             </TableHead>
             <TableBody>
               {loading
-                ? Array(5).fill(0).map((_, index) => (
-                    <TableRow key={`skeleton-${index}`}>
-                      {headers.map((header) => (
-                        <TableCell key={`${header.id}-${index}`}>
+                ? Array(5)
+                    .fill(0)
+                    .map((_, index) => (
+                      <TableRow key={`skeleton-${index}`}>
+                        {headers.map((header) => (
+                          <TableCell key={`${header.id}-${index}`}>
+                            <Skeleton animation="wave" />
+                          </TableCell>
+                        ))}
+                        <TableCell>
                           <Skeleton animation="wave" />
                         </TableCell>
-                      ))}
-                      <TableCell>
-                        <Skeleton animation="wave" />
-                      </TableCell>
-                    </TableRow>
-                  ))
+                      </TableRow>
+                    ))
                 : paginatedCampaignData.map((row, index) => (
                     <TableRow
                       key={row._id}
@@ -260,22 +261,13 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
                             <Typography variant="body2" fontWeight={500}>
                               ${row.raisedAmount.toLocaleString()}
                             </Typography>
-                            <Typography
-                              variant="caption"
-                              color="text.secondary"
-                            >
-                              {Math.round(
-                                (row.raisedAmount / row.targetAmount) * 100
-                              )}
-                              %
+                            <Typography variant="caption" color="text.secondary">
+                              {Math.round((row.raisedAmount / row.targetAmount) * 100)}%
                             </Typography>
                           </Box>
                           <LinearProgress
                             variant="determinate"
-                            value={getProgressValue(
-                              row.raisedAmount,
-                              row.targetAmount
-                            )}
+                            value={getProgressValue(row.raisedAmount, row.targetAmount)}
                             sx={{
                               height: 6,
                               borderRadius: 1,
@@ -288,14 +280,10 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
                         </Box>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body2">
-                          {formatDate(row.startDate)}
-                        </Typography>
+                        <Typography variant="body2">{formatDate(row.startDate)}</Typography>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body2">
-                          {formatDate(row.endDate)}
-                        </Typography>
+                        <Typography variant="body2">{formatDate(row.endDate)}</Typography>
                       </TableCell>
                       <TableCell>
                         {getStatusChip(row.isActive, row.startDate, row.endDate)}
@@ -327,9 +315,7 @@ const ViewCampaign = ({ handleUpdateModal, handleDetailsModal }) => {
           >
             <CampaignIcon sx={{ fontSize: 48, mb: 2, opacity: 0.5 }} />
             <Typography variant="h6">No campaigns found</Typography>
-            <Typography variant="body2">
-              There are no active campaigns at the moment
-            </Typography>
+            <Typography variant="body2">There are no active campaigns at the moment</Typography>
           </Box>
         )}
       </Paper>

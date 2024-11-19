@@ -76,11 +76,14 @@ function Campaigns() {
   const [selectedRow, setSelectedRow] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [flag, setFlag] = useState("current");
 
   // Handle various modals
   const handleCreateModal = () => setCreateModal(!createModal);
-  const handleUpdateModal = (obj = {}) => {
+
+  const handleUpdateModal = (obj = {}, component) => {
     setSelectedRow(obj);
+    setFlag(component);
     setUpdateModal(!updateModal);
   };
   const handleDetailsModal = (obj = {}) => {
@@ -262,6 +265,7 @@ function Campaigns() {
           open={updateModal}
           onClose={handleUpdateModal}
           onUpdate={handleUpdateCampaign}
+          flag={flag}
         />
       )}
 

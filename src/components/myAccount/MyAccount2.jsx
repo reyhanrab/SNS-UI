@@ -22,6 +22,7 @@ import {
   CardContent,
   Stack,
   Container,
+  FormLabel,
 } from "@mui/material";
 import {
   Save as SaveIcon,
@@ -189,11 +190,7 @@ function MyAccount() {
             {icon}
           </Box>
           <Box>
-            <Typography
-              variant="caption"
-              color="textSecondary"
-              sx={{ fontWeight: 500 }}
-            >
+            <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 500 }}>
               {label}
             </Typography>
             <Typography variant="body1" fontWeight="medium">
@@ -262,21 +259,13 @@ function MyAccount() {
             <Typography variant="h4" gutterBottom align="center">
               My Account
             </Typography>
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              align="center"
-              sx={{ mb: 2 }}
-            >
+            <Typography variant="subtitle1" color="textSecondary" align="center" sx={{ mb: 2 }}>
               Manage your personal information and account settings
             </Typography>
           </Box>
 
           {error && (
-            <Alert
-              severity="error"
-              sx={{ mb: 3, width: "100%", borderRadius: 2 }}
-            >
+            <Alert severity="error" sx={{ mb: 3, width: "100%", borderRadius: 2 }}>
               {error}
             </Alert>
           )}
@@ -292,21 +281,9 @@ function MyAccount() {
             >
               Account Information
             </Typography>
-            <ReadOnlyField
-              icon={<AccountIcon />}
-              label="Username"
-              value={formData.username}
-            />
-            <ReadOnlyField
-              icon={<RoleIcon />}
-              label="Role"
-              value={formData.role}
-            />
-            <ReadOnlyField
-              icon={<StatusIcon />}
-              label="Status"
-              value={formData.status}
-            />
+            <ReadOnlyField icon={<AccountIcon />} label="Username" value={formData.username} />
+            <ReadOnlyField icon={<RoleIcon />} label="Role" value={formData.role} />
+            <ReadOnlyField icon={<StatusIcon />} label="Status" value={formData.status} />
           </Box>
 
           <Divider sx={{ my: 4 }} />
@@ -387,9 +364,10 @@ function MyAccount() {
               ].map((field) => (
                 <Grid item xs={12} sm={6} key={field.name}>
                   <FormControl fullWidth>
+                    <FormLabel sx={{ mb: 1, fontWeight: "bold" }}>{field.label}</FormLabel>
                     <TextField
+                      placeholder={field.label}
                       name={field.name}
-                      label={field.label}
                       value={formData[field.name] || ""}
                       onChange={handleInputChange}
                       disabled={!editMode}
@@ -397,9 +375,7 @@ function MyAccount() {
                         startAdornment: (
                           <Box
                             sx={{
-                              color: editMode
-                                ? "primary.main"
-                                : "action.active",
+                              color: editMode ? "primary.main" : "action.active",
                               mr: 1,
                             }}
                           >
@@ -412,9 +388,7 @@ function MyAccount() {
                         "& .MuiOutlinedInput-root": {
                           transition: "all 0.3s ease",
                           "&:hover": {
-                            backgroundColor: editMode
-                              ? "action.hover"
-                              : "transparent",
+                            backgroundColor: editMode ? "action.hover" : "transparent",
                           },
                         },
                       }}
@@ -470,8 +444,9 @@ function MyAccount() {
                   {error}
                 </Alert>
               )}
+              <FormLabel sx={{ mb: 1, fontWeight: "bold" }}>Current Password</FormLabel>
               <TextField
-                label="Current Password"
+                placeholder="Current Password"
                 type="password"
                 fullWidth
                 variant="outlined"
@@ -479,8 +454,9 @@ function MyAccount() {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
               />
+              <FormLabel sx={{ mb: 1, fontWeight: "bold" }}>New Password</FormLabel>
               <TextField
-                label="New Password"
+                placeholder="New Password"
                 type="password"
                 fullWidth
                 variant="outlined"
@@ -490,11 +466,7 @@ function MyAccount() {
               />
             </DialogContent>
             <DialogActions sx={{ p: 3 }}>
-              <Button
-                onClick={handleCloseModal}
-                variant="outlined"
-                color="inherit"
-              >
+              <Button onClick={handleCloseModal} variant="outlined" color="inherit">
                 Cancel
               </Button>
               <Button

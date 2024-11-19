@@ -9,16 +9,13 @@ import {
   Typography,
   Avatar,
   Divider,
-  Collapse,
   Menu,
   MenuItem,
 } from "@mui/material";
 import {
   Home,
   Analytics,
-  Settings,
   Info,
-  Feedback,
   ExpandLess,
   ExpandMore,
   VolunteerActivism,
@@ -33,19 +30,17 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(true);
-  const [expandSettings, setExpandSettings] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
   const [selectedMenuItem, setSelectedMenuItem] = useState("Dashboard");
 
   const toggleSidebar = useCallback(() => setIsOpen((prev) => !prev), []);
-  const handleExpandSettings = useCallback(() => setExpandSettings((prev) => !prev), []);
 
   const menuItems = useMemo(
     () => [
       { path: "/dashboard", label: "Dashboard", icon: <Home /> },
       { path: "/dashboard/campaign", label: "Campaigns", icon: <Analytics /> },
       { path: "/dashboard/donation", label: "Donations", icon: <VolunteerActivism /> },
-      // { path: "/dashboard/donate", label: "Donate", icon: <Settings /> },
+      { path: "/dashboard/about", label: "About", icon: <Info /> },
     ],
     []
   );
@@ -95,7 +90,7 @@ const Sidebar = () => {
             component={Link}
             to={path}
             selected={location.pathname === path}
-            onClick={() => setSelectedMenuItem(label)} 
+            onClick={() => setSelectedMenuItem(label)}
             sx={{
               padding: "12px 16px",
               "&:hover": {
@@ -111,62 +106,6 @@ const Sidebar = () => {
             )}
           </ListItemButton>
         ))}
-        <Divider sx={{ my: 2 }} />
-        <ListItemButton
-          onClick={handleExpandSettings}
-          sx={{
-            padding: "12px 16px",
-            "&:hover": {
-              backgroundColor: "rgba(0, 0, 0, 0.08)",
-            },
-          }}
-        >
-          <ListItemIcon sx={{ minWidth: "40px" }}>
-            <Settings />
-          </ListItemIcon>
-          {isOpen && (
-            <Typography variant="body1" sx={{ fontFamily: "Inter", fontWeight: 500, ml: 2 }}>
-              Settings
-            </Typography>
-          )}
-          {isOpen && (expandSettings ? <ExpandLess /> : <ExpandMore />)}
-        </ListItemButton>
-        <Collapse in={expandSettings} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton
-              component={Link}
-              to="/about"
-              sx={{
-                pl: 4,
-                padding: "12px 16px",
-                "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.08)" },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: "40px" }}>
-                <Info />
-              </ListItemIcon>
-              <Typography variant="body1" sx={{ fontFamily: "Inter", fontWeight: 500, ml: 2 }}>
-                About
-              </Typography>
-            </ListItemButton>
-            <ListItemButton
-              component={Link}
-              to="/feedback"
-              sx={{
-                pl: 4,
-                padding: "12px 16px",
-                "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.08)" },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: "40px" }}>
-                <Feedback />
-              </ListItemIcon>
-              <Typography variant="body1" sx={{ fontFamily: "Inter", fontWeight: 500, ml: 2 }}>
-                Feedback
-              </Typography>
-            </ListItemButton>
-          </List>
-        </Collapse>
       </List>
 
       <Box sx={{ flexGrow: 1 }} />
