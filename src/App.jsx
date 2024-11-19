@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
+// import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard2";
+
 // import Campaigns from "./components/Campaigns/Campaigns";
 import Campaigns from "./components/Campaigns/Campaigns2";
 
