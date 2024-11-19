@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar2";
 import RightSidebar from "./RightSidebar";
 import { useDispatch } from "react-redux";
 import { GETUSERDATABYID } from "../../actions/users/ActionCreators";
