@@ -98,38 +98,33 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
   };
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="md" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
       fullWidth
       PaperProps={{
         sx: {
           borderRadius: 2,
-          backgroundImage: 'none',
-        }
+          backgroundImage: "none",
+        },
       }}
     >
-      <Box sx={{ position: 'relative' }}>
+      <Box sx={{ position: "relative" }}>
         {loading && (
-          <LinearProgress 
-            sx={{ 
-              position: 'absolute', 
-              top: 0, 
-              left: 0, 
+          <LinearProgress
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
               right: 0,
-              borderRadius: '8px 8px 0 0'
-            }} 
+              borderRadius: "8px 8px 0 0",
+            }}
           />
         )}
 
         <DialogTitle sx={{ pb: 0 }}>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            spacing={2}
-          >
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Stack direction="row" spacing={2} alignItems="center">
               <Avatar
                 sx={{
@@ -159,8 +154,8 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
 
         <DialogContent>
           {Object.keys(errors).length > 0 && (
-            <Alert 
-              severity="error" 
+            <Alert
+              severity="error"
               sx={{ mb: 3, borderRadius: 1 }}
               action={
                 <Button color="error" size="small" onClick={() => setErrors({})}>
@@ -178,14 +173,15 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
               p: 2,
               mb: 3,
               borderRadius: 2,
-              bgcolor: theme.palette.primary.light + '10',
+              bgcolor: theme.palette.primary.light + "10",
               border: `1px solid ${theme.palette.primary.light}`,
             }}
           >
             <Stack direction="row" spacing={2} alignItems="center">
               <InfoIcon color="primary" />
               <Typography variant="body2" color="text.secondary">
-                Campaigns can run for up to 30 days. All campaigns start as active and can be deactivated later if needed.
+                Campaigns can run for up to 30 days. All campaigns start as active and can be
+                deactivated later if needed.
               </Typography>
             </Stack>
           </Paper>
@@ -197,6 +193,9 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
                   <DescriptionIcon color="action" fontSize="small" />
                   <FormLabel sx={{ fontWeight: 500 }}>Campaign Details</FormLabel>
                 </Stack>
+                <FormLabel htmlFor="title" sx={{ mb: 1, fontWeight: "bold" }}>
+                  Title
+                </FormLabel>
                 <TextField
                   name="title"
                   value={campaign.title}
@@ -208,6 +207,9 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
                   helperText={errors.title}
                   sx={{ mb: 2 }}
                 />
+                <FormLabel htmlFor="description" sx={{ mb: 1, fontWeight: "bold" }}>
+                  Desccription
+                </FormLabel>
                 <TextField
                   name="description"
                   value={campaign.description}
@@ -219,8 +221,8 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
                   error={!!errors.description}
                   helperText={errors.description}
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      height: 'auto',
+                    "& .MuiOutlinedInput-root": {
+                      height: "auto",
                     },
                   }}
                 />
@@ -243,6 +245,9 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Tooltip title="Set your fundraising goal" arrow placement="top">
+                    <FormLabel htmlFor="targetAmount" sx={{ mb: 1, fontWeight: "bold" }}>
+                      Target Amount
+                    </FormLabel>
                     <TextField
                       name="targetAmount"
                       type="number"
@@ -253,14 +258,15 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
                       error={!!errors.targetAmount}
                       helperText={errors.targetAmount}
                       InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">$</InputAdornment>
-                        ),
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
                       }}
                     />
                   </Tooltip>
                 </Grid>
                 <Grid item xs={12} sm={6}>
+                  <FormLabel htmlFor="raisedAmount" sx={{ mb: 1, fontWeight: "bold" }}>
+                    Rasied Amount
+                  </FormLabel>
                   <Tooltip title="Initial raised amount (if any)" arrow placement="top">
                     <TextField
                       name="raisedAmount"
@@ -282,9 +288,7 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
                           : ""
                       }
                       InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">$</InputAdornment>
-                        ),
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
                       }}
                     />
                   </Tooltip>
@@ -299,6 +303,9 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
               </Stack>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
+                  <FormLabel htmlFor="startDate" sx={{ mb: 1, fontWeight: "bold" }}>
+                    Start Date
+                  </FormLabel>
                   <TextField
                     name="startDate"
                     type="date"
@@ -312,6 +319,9 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
+                  <FormLabel htmlFor="endDate" sx={{ mb: 1, fontWeight: "bold" }}>
+                    End Date
+                  </FormLabel>
                   <TextField
                     name="endDate"
                     type="date"
@@ -322,8 +332,13 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
                     helperText={errors.endDate}
                     inputProps={{
                       min: campaign.startDate || today,
-                      max: campaign.startDate &&
-                        new Date(new Date(campaign.startDate).setDate(new Date(campaign.startDate).getDate() + 30))
+                      max:
+                        campaign.startDate &&
+                        new Date(
+                          new Date(campaign.startDate).setDate(
+                            new Date(campaign.startDate).getDate() + 30
+                          )
+                        )
                           .toISOString()
                           .split("T")[0],
                     }}
@@ -338,12 +353,7 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
         <Divider />
 
         <DialogActions sx={{ p: 2.5, gap: 1 }}>
-          <Button
-            onClick={onClose}
-            variant="outlined"
-            color="inherit"
-            sx={{ borderRadius: 1 }}
-          >
+          <Button onClick={onClose} variant="outlined" color="inherit" sx={{ borderRadius: 1 }}>
             Cancel
           </Button>
           <Button
@@ -352,7 +362,7 @@ const CreateCampaigns = ({ open, onClose, onCreate }) => {
             disabled={loading}
             sx={{ borderRadius: 1, minWidth: 120 }}
           >
-            {loading ? 'Creating...' : 'Create Campaign'}
+            {loading ? "Creating..." : "Create Campaign"}
           </Button>
         </DialogActions>
       </Box>
