@@ -15,23 +15,36 @@ import {
   styled,
   Pagination,
 } from "@mui/material";
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-} from "recharts";
 import { useSelector } from "react-redux";
-import { formatDateTime } from "../../../common/utils";
+import { formatDate, formatDateTime } from "../../../common/utils";
 import {
   Info as InfoIcon,
   People as PeopleIcon,
   AttachMoney as MoneyIcon,
 } from "@mui/icons-material";
+
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -77,7 +90,7 @@ const Reports = () => {
 
   // Group donations by date and calculate the cumulative donation
   const groupByDate = donations.reduce((acc, donation) => {
-    const date = formatDateTime(donation.paymentDate);
+    const date = formatDate(donation.paymentDate);
     if (!acc[date]) acc[date] = 0;
     acc[date] += donation.amount;
     return acc;
@@ -90,7 +103,7 @@ const Reports = () => {
   }));
 
   // Sort data by date
-  donationChartData.sort((a, b) => formatDateTime(a.date) - formatDateTime(b.date));
+  donationChartData.sort((a, b) => formatDate(a.date) - formatDate(b.date));
 
   // Calculate cumulative donations in correct order
   let cumulativeAmount = 0;
@@ -101,11 +114,25 @@ const Reports = () => {
       cumulativeAmount,
     };
   });
-  const tickValues = Array.from({ length: cumulativeData.length }, (_, index) => index + 1);
 
   // Format dates
   const startDateFormatted = new Date(startDate).toLocaleDateString();
   const endDateFormatted = new Date(endDate).toLocaleDateString();
+
+    // Chart.js data
+    const chartData = {
+      labels: cumulativeData.map((data) => data.date),
+      datasets: [
+        {
+          label: "Cumulative Donations",
+          data: cumulativeData.map((data) => data.cumulativeAmount),
+          fill: false,
+          borderColor: "#82ca9d",
+          tension: 0.1,
+        },
+      ],
+    };
+  
 
   return (
     <div>
@@ -176,16 +203,7 @@ const Reports = () => {
                 <MoneyIcon sx={{ marginRight: 1 }} />
                 Cumulative Donation Trend
               </Typography>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={cumulativeData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis ticks={tickValues} />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="cumulativeAmount" fill="#82ca9d" />
-                  </BarChart>
-                </ResponsiveContainer>
+              <Line data={chartData} />
             </CardContent>
           </Card>
         </Grid>

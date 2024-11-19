@@ -7,75 +7,118 @@ import {
   GETDONATIONTRENDS,
   GETVOLUNTEERTRENDS,
   GETCAMPAIGNDONATIONS,
-} from "../actions/dashboard/ActionCreators"; // Adjust the import path to your actions
+} from "../actions/dashboard/ActionCreators"; // Adjust the import path
+
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
   Tooltip,
   Legend,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
-  ResponsiveContainer,
-} from "recharts";
+  ArcElement,
+} from "chart.js";
+import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
+
+// Register Chart.js modules
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
 
 function Dashboard() {
   const dispatch = useDispatch();
-  const [donationChartData, setDonationChartData] = useState([]);
-  const [volunteerChartData, setVolunteerChartData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Added loading state
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch data from the Redux store with safe defaults
+  // Redux selectors
   const summaryData = useSelector((state) => state.DashboardReducer.summaryData || {});
   const campaignStatus = useSelector((state) => state.DashboardReducer.campaignStatus || []);
   const donationTrends = useSelector((state) => state.DashboardReducer.donationTrends || []);
   const volunteerTrends = useSelector((state) => state.DashboardReducer.volunteerTrends || []);
   const campaignDonations = useSelector((state) => state.DashboardReducer.campaignDonations || []);
 
-  // Dispatch actions to fetch data on component mount
   useEffect(() => {
+    // Dispatch actions to fetch data
     dispatch(GETSUMMARYDATA());
     dispatch(GETCAMPAIGNSTATUS());
     dispatch(GETDONATIONTRENDS());
     dispatch(GETVOLUNTEERTRENDS());
     dispatch(GETCAMPAIGNDONATIONS());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (summaryData && donationTrends.length && volunteerTrends.length && campaignStatus) {
-      // Set loading to false once all data is available
+    // Determine loading state
+    if (summaryData && donationTrends.length && volunteerTrends.length && campaignStatus.length) {
       setIsLoading(false);
     } else {
-      // Keep loading true until the required data is fetched
       setIsLoading(true);
     }
+  }, [summaryData, donationTrends, volunteerTrends, campaignStatus]);
 
-    // Donation Trends Chart Data (Bar Chart)
-    if (donationTrends.length > 0) {
-      setDonationChartData(
-        donationTrends?.map((trend) => ({
-          month: trend.month,
-          amount: trend.donations,
-        }))
-      );
-    }
-    if (volunteerTrends.length > 0) {
-      // Volunteer Trends Chart Data (Line Chart)
-      setVolunteerChartData(
-        volunteerTrends?.map((trend) => ({
-          month: trend.month,
-          count: trend.volunteers,
-        }))
-      );
-    }
-  }, [donationTrends, volunteerTrends, summaryData, campaignStatus]);
+  // Chart.js data for Donation Trends
+  const donationTrendsData = {
+    labels: donationTrends.map((trend) => trend.month),
+    datasets: [
+      {
+        label: "Donations",
+        data: donationTrends.map((trend) => trend.donations),
+        backgroundColor: donationTrends.map((_, index) =>
+          // Assign a color from the gradient array to each bar
+          ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5)", "rgba(75, 192, 192, 0.5)"][index % 4]
+        ),
+        borderColor: donationTrends.map((_, index) =>
+          // Assign corresponding darker border color to each bar
+          ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"][index % 4]
+        ),
+        borderWidth: 1, // Thickness of the border
+      },
+    ],
+  };
+  
 
-  console.log("campaignStatus", campaignStatus);
+  // Chart.js data for Volunteer Trends
+  const volunteerTrendsData = {
+    labels: volunteerTrends.map((trend) => trend.month),
+    datasets: [
+      {
+        label: "Volunteers",
+        data: volunteerTrends.map((trend) => trend.volunteers),
+        fill: true, // Enable fill below the line
+        backgroundColor: "rgba(75, 192, 192, 0.2)", // Light green gradient-like fill
+        borderColor: "rgba(75, 192, 192, 1)", // Green for the line
+        pointBackgroundColor: volunteerTrends.map((_, index) =>
+          ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"][index % 4]
+        ),
+        pointBorderColor: "rgba(0, 0, 0, 0.2)", // Dark border for points
+        tension: 0.4, // Smooth curve
+        borderWidth: 2, // Line thickness
+        pointRadius: 5, // Size of the points
+      },
+    ],
+  };
+  
+  // Chart.js data for Campaign Status
+  const campaignStatusData = {
+    labels: campaignStatus.map((status) => status.name),
+    datasets: [
+      {
+        data: campaignStatus.map((status) => status.count),
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"], // Example colors
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        borderWidth: 1, // Optional: Add a border
+      },
+    ],
+  };
 
   return (
     <Box sx={{ padding: 3 }}>
@@ -110,14 +153,14 @@ function Dashboard() {
                     Total Volunteers: {summaryData.totalVolunteers}
                   </Typography>
                   <Typography variant="subtitle1">
-                    Total Active Volunteers: {summaryData.totalActiveVolunteers}
+                    Active Volunteers: {summaryData.totalActiveVolunteers}
                   </Typography>
                 </Box>
               )}
             </CardContent>
           </Card>
         </Grid>
-
+        
         {/* Donation Trends Bar Chart */}
         <Grid item xs={6}>
           <Card>
@@ -129,26 +172,11 @@ function Dashboard() {
               {isLoading ? (
                 <Skeleton variant="rectangular" width="100%" height={300} />
               ) : (
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={donationChartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar
-                      dataKey="amount"
-                      fill="#8884d8" // Bar fill color (light blue)
-                      stroke="#3e5b96" // Darker blue for the stroke
-                      strokeWidth={2} // Optional: make the stroke thicker
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+                <Bar data={donationTrendsData} options={{ responsive: true }} />
               )}
             </CardContent>
           </Card>
         </Grid>
-
         {/* Volunteer Trends Line Chart */}
         <Grid item xs={6}>
           <Card>
@@ -160,27 +188,11 @@ function Dashboard() {
               {isLoading ? (
                 <Skeleton variant="rectangular" width="100%" height={300} />
               ) : (
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={volunteerChartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar
-                      type="monotone"
-                      dataKey="count"
-                      fill="#82ca9d" // Bar fill color
-                      stroke="#4b8c42" // Darker shade of green for the stroke
-                      strokeWidth={2} // Optional: make the stroke a bit thicker
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+                <Bar data={volunteerTrendsData} options={{ responsive: true }} />
               )}
             </CardContent>
           </Card>
         </Grid>
-
         {/* Campaign Status Pie Chart */}
         <Grid item xs={4}>
           <Card>
@@ -192,34 +204,12 @@ function Dashboard() {
               {isLoading ? (
                 <Skeleton variant="rectangular" width="100%" height={300} />
               ) : (
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={campaignStatus}
-                      dataKey="count"
-                      nameKey="name"
-                      outerRadius={150}
-                      fill="#8884d8"
-                      label
-                    >
-                      {campaignStatus.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={["#FF6384", "#36A2EB", "#FFCE56"][index]}
-                        />
-                      ))}
-                    </Pie>
-
-                    {/* Tooltip that will show values on hover */}
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
+                <Doughnut data={campaignStatusData} options={{ responsive: true }} />
               )}
             </CardContent>
           </Card>
         </Grid>
-
-        {/* Campaign Donations Section */}
+        ;{/* Campaign Donations Section */}
         <Grid item xs={8}>
           <Card>
             <CardContent>
