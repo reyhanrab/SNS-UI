@@ -241,22 +241,22 @@ const Donate = () => {
 
   const dispatch = useDispatch();
 
-  const campaginById = useSelector((state) => state.CampaignsReducer.campaginById);
+  const campaignById = useSelector((state) => state.CampaignsReducer.campaignById);
 
-  console.log("campaginById",campaginById)
+  console.log("campaginById",campaignById)
 
   useEffect(() => {
     dispatch(GETCAMPAIGNBYID(id));
   }, []);
 
-  const handleGetCampaginById = () => {
+  const handleGetCampaignById = () => {
     dispatch(GETCAMPAIGNBYID(id));
   };
 
   return (
     <Elements stripe={stripePromise}>
-      {/* {campaginById && <CampaignDetails campaign={campaginById} />} */}
-      <PaymentForm campaign={campaginById} handleGetCampaginById={handleGetCampaginById} />
+      {campaignById && <CampaignDetails campaign={campaignById} />}
+      <PaymentForm campaign={campaignById} handleGetCampaignById={handleGetCampaignById} />
     </Elements>
   );
 };

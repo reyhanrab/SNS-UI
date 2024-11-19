@@ -26,6 +26,7 @@ import MyAccount from "./components/myAccount/MyAccount2";
 // import Donations from "./components/donate/donations/Donations";
 import Donations from "./components/donate/donations/Donations2";
 
+import AboutUs from "./components/AboutUs";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
               <Route exact path="donation" element={<ProtectedRoutes Component={Donations} />} />
               <Route path="donate/:id" element={<ProtectedRoutes Component={Donate} />} />
               <Route path="my-account" element={<ProtectedRoutes Component={MyAccount} />} />
+              <Route path="about" element={<ProtectedRoutes Component={AboutUs} />} />
               {/* New Campaigns Page */}
               <Route path="*" element={<PageNotFound />} />
             </Route>

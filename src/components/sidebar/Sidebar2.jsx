@@ -40,8 +40,8 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(true);
-  const [expandSettings, setExpandSettings] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedMenuItem, setSelectedMenuItem] = useState("Dashboard");
 
   const menuItems = [
     { path: "/dashboard", label: "Dashboard", icon: <Home /> },
@@ -102,17 +102,11 @@ const Sidebar = () => {
           }}
         >
           {isOpen && (
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              {location.pathname === "/dashboard"
-                ? "Dashboard"
-                : location.pathname.split("/").pop().charAt(0).toUpperCase() +
-                  location.pathname.split("/").pop().slice(1)}
+            <Typography variant="h6" sx={{ fontFamily: "Inter" }}>
+              {selectedMenuItem}
             </Typography>
           )}
-          <IconButton
-            onClick={handleDrawerToggle}
-            sx={{ ml: isOpen ? 0 : "auto" }}
-          >
+          <IconButton onClick={handleDrawerToggle} sx={{ ml: isOpen ? 0 : "auto" }}>
             {isOpen ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </Box>
@@ -126,6 +120,7 @@ const Sidebar = () => {
               key={item.path}
               component={Link}
               to={item.path}
+              onClick={() => setSelectedMenuItem(item.label)}
               selected={location.pathname === item.path}
               sx={{
                 minHeight: 48,
@@ -159,7 +154,6 @@ const Sidebar = () => {
               {isOpen && <ListItemText primary={item.label} />}
             </ListItemButton>
           ))}
-
         </List>
 
         <Box sx={{ flexGrow: 1 }} />
@@ -264,11 +258,7 @@ const Sidebar = () => {
             },
           }}
         >
-          <MenuItem
-            component={Link}
-            to="/dashboard/my-account"
-            onClick={handleMenuClose}
-          >
+          <MenuItem component={Link} to="/dashboard/my-account" onClick={handleMenuClose}>
             <ListItemIcon>
               <AccountCircle fontSize="small" />
             </ListItemIcon>
