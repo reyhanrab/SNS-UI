@@ -1,4 +1,5 @@
 import ApiService, { handleNetworkError, dispatchAction } from "../../middleware/ApiService";
+import { GETREGISTRATIONS } from "../registrations/ActionCreators";
 import { CAMPAIGNSDATA, CAMPAIGNMETADATA, CAMPAIGNSPAGINATED, CAMPAIGNBYID } from "./Actions";
 
 export const GETCAMPAIGNSDATA = () => async (dispatch) => {
@@ -18,6 +19,7 @@ export const GETCAMPAIGNBYID = (id) => async (dispatch) => {
     const apiResponse = await ApiService.get(`/campaign/${id}`);
 
     if (apiResponse) {
+      console.log("aspdopasod[sap", apiResponse)
       dispatchAction(dispatch, CAMPAIGNBYID, apiResponse.data.results);
     }
   } catch (error) {
@@ -69,11 +71,11 @@ export const EDITCAMPAIGNSDATA = (id, obj, handleUpdateModal) => async (dispatch
   }
 };
 
-export const DELETECAMPAIGNSDATA = (id) => async (dispatch) => {
+export const DELETECAMPAIGNSDATA = (id, currentPage, limit, filter) => async (dispatch) => {
   try {
     const apiResponse = await ApiService.delete(`/campaign/${id}`);
     if (apiResponse) {
-      dispatch(GETCAMPAIGNSDATA());
+      dispatch(GETPAGINATEDCAMPAIGNS(currentPage, limit, filter));
     }
   } catch (error) {
     handleNetworkError(error);
@@ -86,7 +88,7 @@ export const REGISTERFORCAMPAGIN = (id, userId, handleDialog) => async (dispatch
       volunteer: userId,
     });
     if (apiResponse) {
-      dispatch(GETCAMPAIGNSDATA());
+      dispatch(GETREGISTRATIONS());
       handleDialog();
     }
   } catch (error) {

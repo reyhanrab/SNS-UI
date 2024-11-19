@@ -54,12 +54,8 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const registrationsData = useSelector(
-    (state) => state.RegistrationsReducer.registrationsData
-  );
-  const campaignById = useSelector(
-    (state) => state.CampaignsReducer.campaignById
-  );
+  const registrationsData = useSelector((state) => state.RegistrationsReducer.registrationsData);
+  const campaignById = useSelector((state) => state.CampaignsReducer.campaignById);
 
   const [activeTab, setActiveTab] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -114,10 +110,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
       doc.setFontSize(10);
       doc.text(`Title: ${title}`, 10, 40);
       doc.text(`Description: ${description}`, 10, 45);
-      doc.text(
-        `Target Amount: $${targetAmount.toLocaleString()}`,
-        10, 50
-      );
+      doc.text(`Target Amount: $${targetAmount.toLocaleString()}`, 10, 50);
       doc.text(
         `Raised Amount: $${raisedAmount.toLocaleString()} (${Math.round(
           (raisedAmount / targetAmount) * 100
@@ -136,7 +129,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
       // Registration Table
       doc.setFontSize(14);
       doc.text("Volunteer Registrations", 10, 75);
-      
+
       const volunteerTableData = registrations.map((reg) => [
         `${reg.volunteer.firstname} ${reg.volunteer.lastname}`,
         reg.status,
@@ -203,11 +196,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
         },
       }}
     >
-      {loading && (
-        <LinearProgress
-          sx={{ position: "absolute", top: 0, left: 0, right: 0 }}
-        />
-      )}
+      {loading && <LinearProgress sx={{ position: "absolute", top: 0, left: 0, right: 0 }} />}
 
       {/* Custom Header */}
       <DialogTitle
@@ -226,9 +215,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <CampaignIcon
-                sx={{ fontSize: 28, color: theme.palette.primary.main }}
-              />
+              <CampaignIcon sx={{ fontSize: 28, color: theme.palette.primary.main }} />
               <Typography variant="h6" fontWeight="600">
                 Campaign Information
               </Typography>
@@ -274,13 +261,8 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
             onDonate={onDonate}
           />
           {isRegistered && (
-            <Alert
-              icon={<HowToRegIcon />}
-              severity="info"
-              sx={{ mt: 2, borderRadius: 2 }}
-            >
-              You are already registered for this campaign. We look forward to your
-              participation!
+            <Alert icon={<HowToRegIcon />} severity="info" sx={{ mt: 2, borderRadius: 2 }}>
+              You are already registered for this campaign. We look forward to your participation!
             </Alert>
           )}
         </TabPanel>
@@ -293,6 +275,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
       <Divider />
 
       {/* Actions */}
+
       <DialogActions
         sx={{
           px: 3,
@@ -300,21 +283,16 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
           gap: 1,
         }}
       >
-        <Box sx={{ flex: 1 }}>
+        {/* <Box sx={{ flex: 1 }}>
           <Chip
             icon={<CampaignIcon />}
             label={`Campaign ID: ${campaignData._id}`}
             variant="outlined"
             size="small"
           />
-        </Box>
+        </Box> */}
 
-        <Button
-          onClick={onClose}
-          variant="outlined"
-          color="inherit"
-          startIcon={<CloseIcon />}
-        >
+        <Button onClick={onClose} variant="outlined" color="inherit" startIcon={<CloseIcon />}>
           Close
         </Button>
 
@@ -334,7 +312,8 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
 
         {(localStorage.getItem("role") === "admin" ||
           localStorage.getItem("role") === "volunteer") &&
-          !isRegistered && (
+          activeTab === 0 &&
+          !registeredCampaignIds.includes(campaignData._id) && (
             <Tooltip title="Register for this campaign">
               <Button
                 onClick={() => onRegister(campaignData._id)}
@@ -347,25 +326,24 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
             </Tooltip>
           )}
 
-        {(localStorage.getItem("role") === "admin" ||
-          localStorage.getItem("role") === "donor") && (
-          <Tooltip title="Make a donation">
-            <Button
-              onClick={() => onDonate(campaignData)}
-              variant="contained"
-              color="success"
-              startIcon={<DonateIcon />}
-            >
-              Donate
-            </Button>
-          </Tooltip>
-        )}
+        {(localStorage.getItem("role") === "admin" || localStorage.getItem("role") === "donor") &&
+          !registeredCampaignIds.includes(campaignData) &&
+          activeTab === 0 && (
+            <Tooltip title="Make a donation">
+              <Button
+                onClick={() => onDonate(campaignData)}
+                variant="contained"
+                color="success"
+                startIcon={<DonateIcon />}
+              >
+                Donate
+              </Button>
+            </Tooltip>
+          )}
       </DialogActions>
 
       {downloadProgress && (
-        <LinearProgress
-          sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}
-        />
+        <LinearProgress sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }} />
       )}
     </Dialog>
   );

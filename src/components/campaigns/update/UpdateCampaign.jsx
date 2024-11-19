@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogActions,
@@ -14,16 +14,16 @@ import {
   FormControl,
   FormLabel,
   Divider,
-} from '@mui/material';
+} from "@mui/material";
 
-const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
+const UpdateCampaign = ({ open, onClose, onUpdate, campaignData, flag }) => {
   const [campaign, setCampaign] = useState({
-    title: '',
-    description: '',
-    targetAmount: '',
-    raisedAmount: '',
-    startDate: '',
-    endDate: '',
+    title: "",
+    description: "",
+    targetAmount: "",
+    raisedAmount: "",
+    startDate: "",
+    endDate: "",
     isActive: false,
   });
 
@@ -32,8 +32,8 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
     if (campaignData) {
       setCampaign({
         ...campaignData,
-        startDate: campaignData.startDate?.split('T')[0] || '',
-        endDate: campaignData.endDate?.split('T')[0] || '',
+        startDate: campaignData.startDate?.split("T")[0] || "",
+        endDate: campaignData.endDate?.split("T")[0] || "",
       });
     }
   }, [campaignData]);
@@ -42,7 +42,7 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
     const { name, value, type, checked } = e.target;
     setCampaign((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -54,22 +54,22 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
     });
   };
 
+  const isDisabled = !campaignData.isActive || new Date(campaignData.endDate) < new Date();
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+        <Typography variant="h5" sx={{ fontWeight: "bold", textAlign: "center" }}>
           Update Campaign
         </Typography>
       </DialogTitle>
-  
       <Divider sx={{ my: 1 }} />
-  
       <DialogContent>
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <FormLabel htmlFor="title" sx={{ mb: 1, fontWeight: 'bold' }}>
+                <FormLabel htmlFor="title" sx={{ mb: 1, fontWeight: "bold" }}>
                   Campaign Title
                 </FormLabel>
                 <TextField
@@ -79,14 +79,14 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
-                  disabled={!campaignData.isActive}
+                  disabled={isDisabled}
                 />
               </FormControl>
             </Grid>
-  
+
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <FormLabel htmlFor="description" sx={{ mb: 1, fontWeight: 'bold' }}>
+                <FormLabel htmlFor="description" sx={{ mb: 1, fontWeight: "bold" }}>
                   Description
                 </FormLabel>
                 <TextField
@@ -98,28 +98,28 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   rows={4}
                   variant="outlined"
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      height: 'auto',
+                    "& .MuiOutlinedInput-root": {
+                      height: "auto",
                     },
-                    '& .MuiInputBase-input': {
-                      overflow: 'auto',
+                    "& .MuiInputBase-input": {
+                      overflow: "auto",
                     },
                   }}
-                  disabled={!campaignData.isActive}
+                  disabled={isDisabled}
                 />
                 <Typography
                   variant="caption"
                   align="right"
-                  sx={{ display: 'block', mt: 0.5, color: 'gray' }}
+                  sx={{ display: "block", mt: 0.5, color: "gray" }}
                 >
                   {campaign.description.length} / 500 characters
                 </Typography>
               </FormControl>
             </Grid>
-  
+
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <FormLabel htmlFor="targetAmount" sx={{ mb: 1, fontWeight: 'bold' }}>
+                <FormLabel htmlFor="targetAmount" sx={{ mb: 1, fontWeight: "bold" }}>
                   Target Amount
                 </FormLabel>
                 <TextField
@@ -130,14 +130,14 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
-                  disabled={!campaignData.isActive}
+                  disabled={isDisabled}
                 />
               </FormControl>
             </Grid>
-  
+
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <FormLabel htmlFor="raisedAmount" sx={{ mb: 1, fontWeight: 'bold' }}>
+                <FormLabel htmlFor="raisedAmount" sx={{ mb: 1, fontWeight: "bold" }}>
                   Raised Amount
                 </FormLabel>
                 <TextField
@@ -148,14 +148,14 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   variant="outlined"
                   fullWidth
-                  disabled={!campaignData.isActive}
+                  disabled={isDisabled}
                 />
               </FormControl>
             </Grid>
-  
+
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <FormLabel htmlFor="startDate" sx={{ mb: 1, fontWeight: 'bold' }}>
+                <FormLabel htmlFor="startDate" sx={{ mb: 1, fontWeight: "bold" }}>
                   Start Date
                 </FormLabel>
                 <TextField
@@ -166,14 +166,14 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   InputLabelProps={{ shrink: true }}
                   variant="outlined"
-                  disabled={!campaignData.isActive}
+                  disabled={isDisabled}
                 />
               </FormControl>
             </Grid>
-  
+
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <FormLabel htmlFor="endDate" sx={{ mb: 1, fontWeight: 'bold' }}>
+                <FormLabel htmlFor="endDate" sx={{ mb: 1, fontWeight: "bold" }}>
                   End Date
                 </FormLabel>
                 <TextField
@@ -184,11 +184,11 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
                   onChange={handleInputChange}
                   InputLabelProps={{ shrink: true }}
                   variant="outlined"
-                  disabled={!campaignData.isActive}
+                  disabled={isDisabled}
                 />
               </FormControl>
             </Grid>
-  
+
             <Grid item xs={12}>
               <FormControlLabel
                 control={
@@ -204,14 +204,22 @@ const UpdateCampaign = ({ open, onClose, onUpdate, campaignData }) => {
           </Grid>
         </Box>
       </DialogContent>
-  
+
       <Divider sx={{ my: 1 }} />
-  
-      <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
+      <DialogActions sx={{ justifyContent: "center", pb: 2 }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           Cancel
         </Button>
-        <Button onClick={() => handleUpdate()} variant="contained" color="primary" disabled={!campaign.isActive}>
+        <Button
+          onClick={() => handleUpdate()}
+          variant="contained"
+          color="primary"
+          disabled={
+            (new Date() >= new Date(campaign.startDate) &&
+              new Date() <= new Date(campaign.endDate)) ||
+            (!campaign.isActive && flag === "historical")
+          }
+        >
           Update
         </Button>
       </DialogActions>

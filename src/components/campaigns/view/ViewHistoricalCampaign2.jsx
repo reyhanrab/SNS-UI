@@ -377,7 +377,7 @@ const ViewHistoricalCampaign = ({ handleUpdateModal }) => {
       >
         <MenuItem
           onClick={() => {
-            handleUpdateModal(selectedRow);
+            handleUpdateModal(selectedRow, "historical");
             handleMenuClose();
           }}
           sx={{ gap: 1.5 }}

@@ -243,6 +243,8 @@ const Donate = () => {
 
   const campaginById = useSelector((state) => state.CampaignsReducer.campaginById);
 
+  console.log("campaginById",campaginById)
+
   useEffect(() => {
     dispatch(GETCAMPAIGNBYID(id));
   }, []);
@@ -253,7 +255,7 @@ const Donate = () => {
 
   return (
     <Elements stripe={stripePromise}>
-      {campaginById && <CampaignDetails campaign={campaginById} />}
+      {/* {campaginById && <CampaignDetails campaign={campaginById} />} */}
       <PaymentForm campaign={campaginById} handleGetCampaginById={handleGetCampaginById} />
     </Elements>
   );
