@@ -7,6 +7,7 @@ import Campaigns from "./components/Campaigns/Campaigns2";
 
 import SignUp from "./components/auth/Signup";
 import Login from "./components/auth/Login";
+
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/PasswordReset";
 import { Provider } from "react-redux";
@@ -16,11 +17,15 @@ import { CssBaseline } from "@mui/material";
 import Layout from "./components/sidebar/Layout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PageNotFound from "./PageNotFound";
-import Donate from "./components/donate/Donate";
+// import Donate from "./components/donate/Donate";
+import Donate from "./components/donate/Denate2";
+
 // import MyAccount from "./components/myAccount/myAccount";
 import MyAccount from "./components/myAccount/MyAccount2";
 
-import Donations from "./components/donate/donations/Donations";
+// import Donations from "./components/donate/donations/Donations";
+import Donations from "./components/donate/donations/Donations2";
+
 
 function App() {
   return (
