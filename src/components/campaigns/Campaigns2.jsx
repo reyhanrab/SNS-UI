@@ -39,7 +39,9 @@ import ViewHistoricalCampaign from "./view/ViewHistoricalCampaign2";
 // import Registrations from "../Registrations/Registrations";
 import Registrations from "../Registrations/Registrations2";
 
-import Details from "./details/Details";
+// import Details from "./details/Details";
+import Details from "./details/Details2";
+
 
 function TabPanel({ children, value, index, ...other }) {
   return (
