@@ -17,8 +17,8 @@ import { CssBaseline } from "@mui/material";
 import Layout from "./components/sidebar/Layout";
 import ProtectedRoutes from "./ProtectedRoutes";
 import PageNotFound from "./PageNotFound";
-import Donate from "./components/donate/Donate";
-// import Donate from "./components/donate/Denate2";
+// import Donate from "./components/donate/Donate";
+import Donate from "./components/donate/Donate2";
 
 // import MyAccount from "./components/myAccount/myAccount";
 import MyAccount from "./components/myAccount/MyAccount2";

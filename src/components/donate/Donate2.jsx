@@ -34,6 +34,7 @@ import {
   StepLabel,
   IconButton,
   Tooltip,
+  FormLabel,
 } from "@mui/material";
 import {
   CreditCard as CreditCardIcon,
@@ -269,6 +270,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
   };
 
   const handleSubmit = async (event) => {
+    console.log("dfdsfds")
     event.preventDefault();
     if (!stripe || !elements) return;
 
@@ -356,9 +358,11 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 </Grid>
               ))}
               <Grid item xs={12}>
+                <FormLabel htmlFor="amount" sx={{ mb: 1, fontWeight: "bold" }}>
+                  Amount{" "}
+                </FormLabel>
                 <TextField
                   fullWidth
-                  label="Custom Amount"
                   type="number"
                   value={formData.amount}
                   onChange={handleChange("amount")}
@@ -368,11 +372,14 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                   sx={{ mt: 2 }}
                 />
               </Grid>
+
               <Grid item xs={12}>
+                <FormLabel htmlFor="currency" sx={{ mb: 1, fontWeight: "bold" }}>
+                  Currency
+                </FormLabel>
                 <TextField
                   select
                   fullWidth
-                  label="Currency"
                   value={formData.currency}
                   onChange={handleChange("currency")}
                   required
@@ -394,9 +401,12 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
             <Typography variant="h6" color="primary">
               Personal Information
             </Typography>
+            <FormLabel htmlFor="cardHolderName" sx={{ mb: 1, fontWeight: "bold" }}>
+              Full Name
+            </FormLabel>
             <TextField
               fullWidth
-              label="Full Name"
+              placeholder="Full Name"
               value={formData.cardHolderName}
               onChange={handleChange("cardHolderName")}
               required
@@ -408,9 +418,12 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 ),
               }}
             />
+            <FormLabel htmlFor="address" sx={{ mb: 1, fontWeight: "bold" }}>
+              Address{" "}
+            </FormLabel>
             <TextField
               fullWidth
-              label="Address"
+              placeholder="Address"
               value={formData.address}
               onChange={handleChange("address")}
               required
@@ -422,10 +435,13 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 ),
               }}
             />
+            <FormLabel htmlFor="country" sx={{ mb: 1, fontWeight: "bold" }}>
+              Country{" "}
+            </FormLabel>
             <TextField
               select
               fullWidth
-              label="Country"
+              placeholder="Country"
               value={formData.country}
               onChange={handleChange("country")}
               required
@@ -453,7 +469,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
               Payment Details
             </Typography>
             <Box>
-              <Typography variant="caption" color="text.secondary" mb={1}>
+              <Typography variant="caption" color="text.secondary" mb={1} fontWeight={"bold"}>
                 Card Number
               </Typography>
               <Paper
@@ -484,9 +500,9 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 />
               </Paper>
             </Box>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="caption" color="text.secondary" mb={1}>
+            <Grid container sx={{ justifyContent: "space-between"}}>
+              <Grid item xs={12} sm={5}>
+                <Typography variant="caption" color="text.secondary" mb={1} fontWeight={"bold"}>
                   Expiration Date
                 </Typography>
                 <Paper
@@ -517,8 +533,8 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                   />
                 </Paper>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="caption" color="text.secondary" mb={1}>
+              <Grid item xs={12} sm={5}>
+                <Typography variant="caption" color="text.secondary" mb={1} fontWeight={"bold"}>
                   CVC
                 </Typography>
                 <Paper
@@ -593,7 +609,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
               ))}
             </Stepper>
 
-            <Box component="form" onSubmit={handleSubmit}>
+            <Box component="form" onSubmit={(e)=>handleSubmit(e)}>
               {getStepContent(activeStep)}
 
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
@@ -607,7 +623,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 </Button>
                 {activeStep === steps.length - 1 ? (
                   <Button
-                    type="submit"
+                    type={isProcessing ?"button" :"submit"}
                     variant="contained"
                     disabled={!stripe || isProcessing}
                     sx={{
@@ -632,10 +648,11 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                   </Button>
                 ) : (
                   <Button
+                  type="buttond"
                     variant="contained"
-                    onClick={handleNext}
+                    onClick={()=>handleNext()}
                     sx={{ borderRadius: 2 }}
-                    disabled={!formData.amount && activeStep === 0}
+                    disabled={!formData.amount && !formData.cardHolderName && activeStep === 0}
                   >
                     Next
                   </Button>

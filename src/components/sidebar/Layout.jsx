@@ -5,13 +5,16 @@ import { Box } from "@mui/material";
 import Sidebar from "./Sidebar2";
 import RightSidebar from "./RightSidebar";
 import { useDispatch } from "react-redux";
-import { GETUSERDATABYID } from "../../actions/users/ActionCreators";
+import { GETDONATIONSUMMARYFORUSER, GETUSERDATABYID } from "../../actions/users/ActionCreators";
 
 const Layout = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(GETUSERDATABYID(localStorage.getItem("userId")));
+    dispatch(GETDONATIONSUMMARYFORUSER(localStorage.getItem("userId")));
   }, []);
+
   return (
     <Box sx={{ display: "flex" }}>
       <Sidebar />

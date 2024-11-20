@@ -88,7 +88,6 @@ function Dashboard() {
 
   useEffect(() => {
     handleRefresh();
-    dispatch(GETDONATIONSUMMARYFORUSER(localStorage.getItem("userId")));
   }, [dispatch]);
 
   useEffect(() => {

@@ -18,7 +18,6 @@ import {
 import ViewDonations from "./view/ViewDonations2";
 import DonationDetails from "./details/DonationDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { GETDONATIONSUMMARYFORUSER } from "../../../actions/users/ActionCreators";
 
 const DonationStats = () => {
   const theme = useTheme();
@@ -38,8 +37,6 @@ const DonationStats = () => {
       color: theme.palette.info.main,
     },
   ];
-
-  console.log("donationSummary",donationSummary)
 
   const enhancedDonationSummary = donationSummary?.map((item, index) => ({
     ...item, // Spread the original donation summary object
