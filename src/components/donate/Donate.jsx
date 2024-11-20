@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PUBLISH_KEY}`);
 
-const PaymentForm = ({ campaign, handleGetCampaginById }) => {
+const PaymentForm = ({ campaign, handleGetCampaignById }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -78,7 +78,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
         setCurrency("");
       }
 
-      handleGetCampaginById();
+      handleGetCampaignById();
 
       setMessage(data.message);
     } catch (error) {
@@ -242,8 +242,6 @@ const Donate = () => {
   const dispatch = useDispatch();
 
   const campaignById = useSelector((state) => state.CampaignsReducer.campaignById);
-
-  console.log("campaginById",campaignById)
 
   useEffect(() => {
     dispatch(GETCAMPAIGNBYID(id));

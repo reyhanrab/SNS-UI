@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Toolbar,
   Typography,
@@ -17,35 +17,37 @@ import {
 } from "@mui/icons-material";
 import ViewDonations from "./view/ViewDonations2";
 import DonationDetails from "./details/DonationDetails";
+import { useDispatch, useSelector } from "react-redux";
 
 const DonationStats = () => {
   const theme = useTheme();
+  const donationSummary = useSelector((state) => state.UsersReducer.donationSummary);
 
   const stats = [
     {
-      title: "Total Donated",
-      value: "$2,450",
       icon: <PaidIcon />,
       color: theme.palette.primary.main,
     },
     {
-      title: "Active Donations",
-      value: "12",
       icon: <WalletIcon />,
       color: theme.palette.success.main,
     },
     {
-      title: "Campaigns Supported",
-      value: "8",
       icon: <VolunteerIcon />,
       color: theme.palette.info.main,
     },
   ];
 
+  const enhancedDonationSummary = donationSummary.map((item, index) => ({
+    ...item, // Spread the original donation summary object
+    icon: stats[index]?.icon || null, // Add the corresponding icon from stats
+    color: stats[index]?.color || null, // Add the corresponding color from stats
+  }));
+
   return (
     <Box sx={{ mb: 4 }}>
       <Grid container spacing={3}>
-        {stats.map((stat, index) => (
+        {enhancedDonationSummary.map((stat, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Paper
               elevation={0}
@@ -73,11 +75,7 @@ const DonationStats = () => {
                   {stat.icon}
                 </Avatar>
                 <Box>
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                    gutterBottom
-                  >
+                  <Typography color="text.secondary" variant="body2" gutterBottom>
                     {stat.title}
                   </Typography>
                   <Typography variant="h5" fontWeight="bold">
@@ -97,6 +95,8 @@ const MemoizedViewDonations = React.memo(ViewDonations);
 
 function Donations() {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
   const [detailsModal, setDetailsModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(false);
 
@@ -104,6 +104,10 @@ function Donations() {
     setSelectedRow(obj);
     setDetailsModal(!detailsModal);
   };
+
+  useEffect(() => {
+    dispatch(GETDONATIONSUMMARYFORUSER(localStorage.getItem("userId")));
+  });
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 3 }}>

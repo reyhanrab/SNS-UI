@@ -61,13 +61,8 @@ const CampaignDetails = ({ campaign }) => {
 
   if (!campaign || Object.keys(campaign).length === 0) return null;
 
-  const progress = Math.min(
-    (campaign.raisedAmount / campaign.targetAmount) * 100,
-    100
-  );
-  const daysLeft = Math.ceil(
-    (new Date(campaign.endDate) - new Date()) / (1000 * 60 * 60 * 24)
-  );
+  const progress = Math.min((campaign.raisedAmount / campaign.targetAmount) * 100, 100);
+  const daysLeft = Math.ceil((new Date(campaign.endDate) - new Date()) / (1000 * 60 * 60 * 24));
 
   return (
     <Card
@@ -101,12 +96,7 @@ const CampaignDetails = ({ campaign }) => {
             zIndex: 0,
           }}
         />
-        <Stack
-          direction="row"
-          spacing={3}
-          alignItems="center"
-          position="relative"
-        >
+        <Stack direction="row" spacing={3} alignItems="center" position="relative">
           <Avatar
             sx={{
               width: 80,
@@ -127,11 +117,7 @@ const CampaignDetails = ({ campaign }) => {
                 color={campaign.isActive ? "success" : "default"}
                 sx={{ bgcolor: "white" }}
               />
-              <Chip
-                icon={<TimeIcon />}
-                label={`${daysLeft} days left`}
-                sx={{ bgcolor: "white" }}
-              />
+              <Chip icon={<TimeIcon />} label={`${daysLeft} days left`} sx={{ bgcolor: "white" }} />
               <IconButton color="inherit" size="small">
                 <ShareIcon />
               </IconButton>
@@ -151,17 +137,10 @@ const CampaignDetails = ({ campaign }) => {
               <Typography variant="h6" gutterBottom>
                 Fundraising Progress
               </Typography>
-              <Paper
-                elevation={0}
-                sx={{ p: 3, bgcolor: "grey.50", borderRadius: 2 }}
-              >
+              <Paper elevation={0} sx={{ p: 3, bgcolor: "grey.50", borderRadius: 2 }}>
                 <Stack spacing={2}>
                   <Box>
-                    <Typography
-                      variant="h4"
-                      color="primary.main"
-                      fontWeight="bold"
-                    >
+                    <Typography variant="h4" color="primary.main" fontWeight="bold">
                       ${campaign.raisedAmount.toLocaleString()}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
@@ -180,11 +159,7 @@ const CampaignDetails = ({ campaign }) => {
                       },
                     }}
                   />
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    align="right"
-                  >
+                  <Typography variant="body2" color="text.secondary" align="right">
                     {progress.toFixed(1)}% Complete
                   </Typography>
                 </Stack>
@@ -193,17 +168,10 @@ const CampaignDetails = ({ campaign }) => {
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <Paper
-              elevation={0}
-              sx={{ p: 3, bgcolor: "grey.50", borderRadius: 2 }}
-            >
+            <Paper elevation={0} sx={{ p: 3, bgcolor: "grey.50", borderRadius: 2 }}>
               <Stack spacing={3}>
                 <Box>
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
+                  <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                     Campaign Period
                   </Typography>
                   <Stack spacing={2}>
@@ -212,14 +180,11 @@ const CampaignDetails = ({ campaign }) => {
                         Start Date
                       </Typography>
                       <Typography variant="body1" fontWeight="medium">
-                        {new Date(campaign.startDate).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )}
+                        {new Date(campaign.startDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
                       </Typography>
                     </Box>
                     <Box>
@@ -227,14 +192,11 @@ const CampaignDetails = ({ campaign }) => {
                         End Date
                       </Typography>
                       <Typography variant="body1" fontWeight="medium">
-                        {new Date(campaign.endDate).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )}
+                        {new Date(campaign.endDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
                       </Typography>
                     </Box>
                   </Stack>
@@ -243,35 +205,20 @@ const CampaignDetails = ({ campaign }) => {
                 <Divider />
 
                 <Box>
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
+                  <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                     Campaign Stats
                   </Typography>
                   <Stack direction="row" spacing={2}>
                     <Box flex={1}>
-                      <Typography
-                        variant="h6"
-                        color="primary.main"
-                        fontWeight="bold"
-                      >
-                        {Math.ceil(
-                          (campaign.raisedAmount / campaign.targetAmount) * 100
-                        )}
-                        %
+                      <Typography variant="h6" color="primary.main" fontWeight="bold">
+                        {Math.ceil((campaign.raisedAmount / campaign.targetAmount) * 100)}%
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Funded
                       </Typography>
                     </Box>
                     <Box flex={1}>
-                      <Typography
-                        variant="h6"
-                        color="primary.main"
-                        fontWeight="bold"
-                      >
+                      <Typography variant="h6" color="primary.main" fontWeight="bold">
                         {daysLeft}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
@@ -347,15 +294,12 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
         return;
       }
 
-      const { data } = await axios.post(
-        "http://localhost:3000/api/v1/donation/donate",
-        {
-          ...formData,
-          paymentMethodId: paymentMethod.id,
-          userId: localStorage.getItem("userId"),
-          campaignId: campaign._id,
-        }
-      );
+      const { data } = await axios.post("http://localhost:3000/api/v1/donation/donate", {
+        ...formData,
+        paymentMethodId: paymentMethod.id,
+        userId: localStorage.getItem("userId"),
+        campaignId: campaign._id,
+      });
 
       setMessage(data.message);
       setMessageType("success");
@@ -403,14 +347,8 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 <Grid item xs={6} sm={4} key={amount}>
                   <Button
                     fullWidth
-                    variant={
-                      formData.amount === amount.toString()
-                        ? "contained"
-                        : "outlined"
-                    }
-                    onClick={() =>
-                      setFormData({ ...formData, amount: amount.toString() })
-                    }
+                    variant={formData.amount === amount.toString() ? "contained" : "outlined"}
+                    onClick={() => setFormData({ ...formData, amount: amount.toString() })}
                     sx={{ py: 2, borderRadius: 2 }}
                   >
                     ${amount}
@@ -425,9 +363,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                   value={formData.amount}
                   onChange={handleChange("amount")}
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">$</InputAdornment>
-                    ),
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   }}
                   sx={{ mt: 2 }}
                 />
@@ -645,8 +581,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 Make a Donation
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Your support makes a difference. Complete the form below to
-                process your donation.
+                Your support makes a difference. Complete the form below to process your donation.
               </Typography>
             </Box>
 
@@ -661,9 +596,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
             <Box component="form" onSubmit={handleSubmit}>
               {getStepContent(activeStep)}
 
-              <Box
-                sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}
-              >
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}
@@ -720,7 +653,7 @@ const Donate = () => {
   const theme = useTheme();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const campaign = useSelector((state) => state.CampaignsReducer.campaginById);
+  const campaign = useSelector((state) => state.CampaignsReducer.campaignById);
   const [loading, setLoading] = useState(true);
   console.log(campaign);
 
@@ -760,7 +693,6 @@ const Donate = () => {
         py: 4,
       }}
     >
-      
       <Container maxWidth="lg">
         <Button
           variant="outlined"
