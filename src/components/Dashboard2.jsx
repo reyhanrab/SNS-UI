@@ -48,6 +48,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
+import { GETDONATIONSUMMARYFORUSER } from "../actions/users/ActionCreators";
 
 ChartJS.register(
   CategoryScale,
@@ -87,6 +88,7 @@ function Dashboard() {
 
   useEffect(() => {
     handleRefresh();
+    dispatch(GETDONATIONSUMMARYFORUSER(localStorage.getItem("userId")));
   }, [dispatch]);
 
   useEffect(() => {

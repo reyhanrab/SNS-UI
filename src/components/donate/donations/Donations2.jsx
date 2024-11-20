@@ -18,6 +18,7 @@ import {
 import ViewDonations from "./view/ViewDonations2";
 import DonationDetails from "./details/DonationDetails";
 import { useDispatch, useSelector } from "react-redux";
+import { GETDONATIONSUMMARYFORUSER } from "../../../actions/users/ActionCreators";
 
 const DonationStats = () => {
   const theme = useTheme();
@@ -38,7 +39,9 @@ const DonationStats = () => {
     },
   ];
 
-  const enhancedDonationSummary = donationSummary.map((item, index) => ({
+  console.log("donationSummary",donationSummary)
+
+  const enhancedDonationSummary = donationSummary?.map((item, index) => ({
     ...item, // Spread the original donation summary object
     icon: stats[index]?.icon || null, // Add the corresponding icon from stats
     color: stats[index]?.color || null, // Add the corresponding color from stats
@@ -104,10 +107,6 @@ function Donations() {
     setSelectedRow(obj);
     setDetailsModal(!detailsModal);
   };
-
-  useEffect(() => {
-    dispatch(GETDONATIONSUMMARYFORUSER(localStorage.getItem("userId")));
-  });
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 3 }}>
