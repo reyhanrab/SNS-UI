@@ -12,11 +12,10 @@ export const SIGNUP = (obj, formRef, navigate, setLoading) => async (dispatch) =
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-    } else {
-      dispatchApiMessage(dispatch, ERRORMSG, apiResponse.data.message);
     }
   } catch (error) {
     setLoading(false); // Ensure loading is turned off on error
+    dispatchApiMessage(dispatch, ERRORMSG, error.response.data.message);
     handleNetworkError(error);
   }
 };

@@ -111,7 +111,7 @@ const SignUp = () => {
       }
     }
     setLoading(true);
-    if(isValid){
+    if(validateInputs()){
       dispatch(SIGNUP(obj, formRef, navigate, setLoading));
     }
   };

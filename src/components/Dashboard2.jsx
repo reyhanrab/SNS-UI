@@ -25,7 +25,7 @@ import {
   Assessment as AssessmentIcon,
   DonutLarge as DonutIcon,
   Timeline as TimelineIcon,
-  MonetizationOn
+  MonetizationOn,
 } from "@mui/icons-material";
 import {
   GETSUMMARYDATA,
@@ -48,7 +48,6 @@ import {
   ArcElement,
 } from "chart.js";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
-import { GETDONATIONSUMMARYFORUSER } from "../actions/users/ActionCreators";
 
 ChartJS.register(
   CategoryScale,
@@ -92,23 +91,18 @@ function Dashboard() {
 
   useEffect(() => {
     let timeout;
-  
+
     if (isLoading) {
       timeout = setTimeout(() => {
         setIsLoading(false); // Stop loading if no data is received in 10 seconds
       }, 10000); // 10 seconds timeout
     }
-  
-    if (
-      summaryData &&
-      donationTrends.length &&
-      volunteerTrends.length &&
-      campaignStatus.length
-    ) {
+
+    if (summaryData && donationTrends.length && volunteerTrends.length && campaignStatus.length) {
       setIsLoading(false); // Stop loading if data is available
       clearTimeout(timeout); // Clear timeout if data loads successfully
     }
-  
+
     return () => {
       if (timeout) clearTimeout(timeout); // Cleanup timeout on unmount
     };
@@ -169,12 +163,7 @@ function Dashboard() {
       }}
     >
       <CardContent>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ mb: 3 }}
-        >
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Icon color="primary" />
             <Typography variant="h6" fontWeight="600">
@@ -267,9 +256,7 @@ function Dashboard() {
   return (
     <Box sx={{ p: 3 }}>
       {isRefreshing && (
-        <LinearProgress
-          sx={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999 }}
-        />
+        <LinearProgress sx={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999 }} />
       )}
 
       {/* Header */}
@@ -343,9 +330,7 @@ function Dashboard() {
           <StatCard
             icon={VolunteerIcon}
             label="Active Volunteers"
-            value={
-              isLoading ? <Skeleton width={60} /> : summaryData.totalActiveVolunteers
-            }
+            value={isLoading ? <Skeleton width={60} /> : summaryData.totalActiveVolunteers}
             subValue="Currently active"
             color="warning"
           />
@@ -432,15 +417,19 @@ function Dashboard() {
                         p: 2,
                       }}
                     >
-                      <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
-                        gutterBottom
-                      >
+                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                         {donation.campaignTitle}
                       </Typography>
                       <Typography variant="h6" color="success.main" fontWeight="600">
-                        ${donation.donations.toLocaleString()}
+                        ${donation.donationAmount}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                        Donated on:{" "}
+                        {new Date(donation.paymentDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
                       </Typography>
                     </Card>
                   </Grid>

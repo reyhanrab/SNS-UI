@@ -21,7 +21,7 @@ const Layout = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Outlet />
       </Box>
-      <RightSidebar />
+      {/* <RightSidebar /> */}
     </Box>
   );
 };
