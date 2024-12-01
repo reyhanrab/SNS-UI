@@ -82,7 +82,7 @@ const Reports = () => {
   } = campaignById;
 
   // Calculate total donations
-  const totalDonations = donations.reduce((total, donation) => total + donation.amount, 0);
+  const totalDonations = raisedAmount;
 
   // Volunteer statistics
   const checkedInVolunteers = registrations.filter((reg) => reg.status === "checked-out").length;
@@ -131,8 +131,7 @@ const Reports = () => {
           tension: 0.1,
         },
       ],
-    };
-  
+    };  
 
   return (
     <div>

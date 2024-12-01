@@ -97,7 +97,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
       const doc = new jsPDF();
 
       // Header
-      doc.setFillColor(theme.palette.primary.main);
+      // doc.setFillColor(theme.palette.primary.main);
       doc.rect(0, 0, doc.internal.pageSize.getWidth(), 20, "F");
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(16);
@@ -142,7 +142,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
         body: volunteerTableData,
         theme: "grid",
         styles: { fontSize: 9 },
-        headStyles: { fillColor: theme.palette.primary.main },
+        // headStyles: { fillColor: theme.palette.primary.main },
       });
 
       // Donations Table
@@ -161,7 +161,7 @@ const Details = ({ open, onClose, campaignData, onRegister, onDonate }) => {
         body: donationsTableData,
         theme: "grid",
         styles: { fontSize: 9 },
-        headStyles: { fillColor: theme.palette.primary.main },
+        // headStyles: { fillColor: theme.palette.primary.main },
       });
 
       // Chart

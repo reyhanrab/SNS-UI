@@ -328,7 +328,7 @@ const ViewHistoricalCampaign = ({ handleUpdateModal }) => {
             <HistoryIcon sx={{ fontSize: 48, mb: 2, opacity: 0.5 }} />
             <Typography variant="h6">No Historical Campaigns</Typography>
             <Typography variant="body2">
-              There are no completed campaigns to display
+              There are no inactive campaigns to display
             </Typography>
           </Box>
         )}

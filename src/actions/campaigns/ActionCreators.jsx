@@ -19,7 +19,6 @@ export const GETCAMPAIGNBYID = (id) => async (dispatch) => {
     const apiResponse = await ApiService.get(`/campaign/${id}`);
 
     if (apiResponse) {
-      console.log("aspdopasod[sap", apiResponse)
       dispatchAction(dispatch, CAMPAIGNBYID, apiResponse.data.results);
     }
   } catch (error) {

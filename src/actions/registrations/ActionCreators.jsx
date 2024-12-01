@@ -21,6 +21,7 @@ export const GETREGISTRATIONS =
   };
 
   export const CAMPAIGNCHECKIN = (id, onClose) => async (dispatch) => {
+    console.log("onClose",onClose)
     try {
       const apiResponse = await ApiService.post(`/registration/${id}/check-in`);
       if (apiResponse) {

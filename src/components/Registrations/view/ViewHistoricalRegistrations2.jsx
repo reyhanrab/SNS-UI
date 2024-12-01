@@ -316,7 +316,7 @@ const MyHistoricalCampaign = ({ handleDetailsModal }) => {
                         No Historical Campaigns
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        You don't have any completed campaign registrations yet
+                        You don't have any active campaign registrations yet
                       </Typography>
                     </Box>
                   </TableCell>

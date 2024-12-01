@@ -18,8 +18,15 @@ import {
 import ViewDonations from "./view/ViewDonations2";
 import DonationDetails from "./details/DonationDetails";
 import { useDispatch, useSelector } from "react-redux";
+import { GETDONATIONSUMMARYFORUSER } from "../../../actions/users/ActionCreators";
 
 const DonationStats = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(GETDONATIONSUMMARYFORUSER(localStorage.getItem("userId")));
+  }, []);
+
   const theme = useTheme();
   const donationSummary = useSelector((state) => state.UsersReducer.donationSummary);
 

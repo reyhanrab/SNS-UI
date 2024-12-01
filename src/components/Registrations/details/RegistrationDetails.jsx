@@ -20,19 +20,21 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';  // Make sure the CSS is included
 
 const RegistrationDetails = ({ open, onClose, registrationData }) => {
+  console.log("onClose",onClose)
   const dispatch = useDispatch();
 
   const [message, setMessage] = useState(""); // State to hold the message
   const [messageVisible, setMessageVisible] = useState(false); // State to control visibility
 
   const handleCheckIn = async (id) => {
-    const responseMessage = await dispatch(CAMPAIGNCHECKIN(id), onClose);
+    const responseMessage = await dispatch(CAMPAIGNCHECKIN(id, onClose));
+    console.log("responseMessage",responseMessage)
     // Show success with Toastify
     toast.success(responseMessage);
   };
 
   const handleCheckOut = async (id) => {
-    const responseMessage = await dispatch(CAMPAIGNCHECKOUT(id), onClose);
+    const responseMessage = await dispatch(CAMPAIGNCHECKOUT(id, onClose));
     // Show success with Toastify
     toast.success(responseMessage);
   };

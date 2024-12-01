@@ -249,7 +249,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
     country: "",
     address: "",
     cardType: "",
-    currency: "USD",
+    currency: "",
   });
   const [message, setMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -270,7 +270,6 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
   };
 
   const handleSubmit = async (event) => {
-    console.log("dfdsfds")
     event.preventDefault();
     if (!stripe || !elements) return;
 
@@ -298,6 +297,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
 
       const { data } = await axios.post("http://localhost:3000/api/v1/donation/donate", {
         ...formData,
+        amount: amount, // Use the formatted amount
         paymentMethodId: paymentMethod.id,
         userId: localStorage.getItem("userId"),
         campaignId: campaign._id,
@@ -324,7 +324,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
 
   const currencies = [
     { value: "USD", label: "USD - United States Dollar" },
-    { value: "EUR", label: "EUR - Euro" },
+    { value: "CAD", label: "CAD - Canadian Dollar" },
     { value: "GBP", label: "GBP - British Pound" },
   ];
 
@@ -468,6 +468,23 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
             <Typography variant="h6" color="primary">
               Payment Details
             </Typography>
+
+            <FormLabel htmlFor="cardType" sx={{ mb: 1, fontWeight: "bold" }}>
+              Card Type
+            </FormLabel>
+            <TextField
+              select
+              fullWidth
+              value={formData.cardType}
+              onChange={handleChange("cardType")}
+              required
+            >
+              <MenuItem value="Visa">Visa</MenuItem>
+              <MenuItem value="MasterCard">MasterCard</MenuItem>
+              <MenuItem value="AmericanExpress">American Express</MenuItem>
+              <MenuItem value="Discover">Discover</MenuItem>
+            </TextField>
+
             <Box>
               <Typography variant="caption" color="text.secondary" mb={1} fontWeight={"bold"}>
                 Card Number
@@ -500,7 +517,8 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 />
               </Paper>
             </Box>
-            <Grid container sx={{ justifyContent: "space-between"}}>
+
+            <Grid container sx={{ justifyContent: "space-between" }}>
               <Grid item xs={12} sm={5}>
                 <Typography variant="caption" color="text.secondary" mb={1} fontWeight={"bold"}>
                   Expiration Date
@@ -609,7 +627,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
               ))}
             </Stepper>
 
-            <Box component="form" onSubmit={(e)=>handleSubmit(e)}>
+            <Box component="form" onSubmit={(e) => handleSubmit(e)}>
               {getStepContent(activeStep)}
 
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
@@ -623,7 +641,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                 </Button>
                 {activeStep === steps.length - 1 ? (
                   <Button
-                    type={isProcessing ?"button" :"submit"}
+                    type={isProcessing ? "button" : "submit"}
                     variant="contained"
                     disabled={!stripe || isProcessing}
                     sx={{
@@ -648,9 +666,9 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
                   </Button>
                 ) : (
                   <Button
-                  type="buttond"
+                    type="buttond"
                     variant="contained"
-                    onClick={()=>handleNext()}
+                    onClick={() => handleNext()}
                     sx={{ borderRadius: 2 }}
                     disabled={!formData.amount && !formData.cardHolderName && activeStep === 0}
                   >
@@ -672,7 +690,6 @@ const Donate = () => {
   const dispatch = useDispatch();
   const campaign = useSelector((state) => state.CampaignsReducer.campaignById);
   const [loading, setLoading] = useState(true);
-  console.log(campaign);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -683,8 +700,6 @@ const Donate = () => {
       }
     };
     fetchData();
-
-    console.log(campaign);
   }, [id, dispatch]);
 
   if (loading) {
