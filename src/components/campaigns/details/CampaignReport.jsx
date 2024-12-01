@@ -85,7 +85,8 @@ const Reports = () => {
   const totalDonations = raisedAmount;
 
   // Volunteer statistics
-  const checkedInVolunteers = registrations.filter((reg) => reg.status === "checked-out").length;
+  const checkedInVolunteers = registrations.filter((reg) => reg.status === "checked-in").length;
+  const checkedOutVolunteers = registrations.filter((reg) => reg.status === "checked-out").length;
   const registeredVolunteers = registrations.filter((reg) => reg.status === "registered").length;
 
   // Group donations by date and calculate the cumulative donation
@@ -186,6 +187,9 @@ const Reports = () => {
               </Typography>
               <Typography variant="body2" sx={{ marginBottom: 1 }}>
                 <strong>Checked-in Volunteers:</strong> {checkedInVolunteers}
+              </Typography>
+              <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                <strong>Checked-out Volunteers:</strong> {checkedOutVolunteers}
               </Typography>
             </CardContent>
           </Card>

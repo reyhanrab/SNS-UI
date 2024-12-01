@@ -297,11 +297,11 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
 
       const { data } = await axios.post("http://localhost:3000/api/v1/donation/donate", {
         ...formData,
-        amount: amount, // Use the formatted amount
         paymentMethodId: paymentMethod.id,
         userId: localStorage.getItem("userId"),
         campaignId: campaign._id,
       });
+      console.log("data", data)
 
       setMessage(data.message);
       setMessageType("success");
@@ -311,7 +311,7 @@ const PaymentForm = ({ campaign, handleGetCampaginById }) => {
         country: "",
         address: "",
         cardType: "",
-        currency: "USD",
+        currency: "",
       });
       handleGetCampaginById();
     } catch (error) {

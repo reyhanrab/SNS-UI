@@ -36,7 +36,6 @@ export const formatDateTime = (value) => {
     hour: "2-digit",
     minute: "2-digit",
     hour12: true, // To display the time in 12-hour format with AM/PM
-    timeZone: "UTC", // Specify UTC to avoid local time zone issues
   };
 
   return date.toLocaleString("en-US", options);

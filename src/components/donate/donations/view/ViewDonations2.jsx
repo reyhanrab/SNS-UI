@@ -191,7 +191,7 @@ const ViewDonations = ({ handleDetailsModal }) => {
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2" fontWeight={500}>
-                        ${(donation.amount / 100).toFixed(2)}
+                        ${(donation.amount).toFixed(2)}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
                         {donation.currency}
